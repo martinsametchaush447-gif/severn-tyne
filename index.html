@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Severn &amp; Tyne | Websites for local businesses</title>
+  <meta name="description" content="Type your business name and see your website. Severn &amp; Tyne makes websites for barbers, restaurants, cafes, garages and trades, with hosting, a local phone number and monthly posts.">
+  <meta name="theme-color" content="#f8f6ed">
+  <meta name="color-scheme" content="light">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Severn &amp; Tyne">
+  <meta property="og:title" content="Type your business name. See your website.">
+  <meta property="og:description" content="Websites for local businesses. Make a demo of yours in seconds and share the link.">
+  <meta property="og:image" content="og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Severn &amp; Tyne. Type your business name. See your website.">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/studio.css">
+  <script>document.documentElement.classList.add("js");</script>
+  <script type="module" src="assets/studio.js"></script>
+</head>
+<body>
+  <a class="skip" href="#maker">Skip to the demo maker</a>
+
+  <header class="site-head">
+    <div class="wrap site-head-in">
+      <a class="brand" href="./" aria-label="Severn &amp; Tyne, home">
+        <svg class="brand-mark" viewBox="0 0 51 33" width="43" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M2 14C12 14 14 4 25 4s13 10 24 10M2 26c10 0 12-10 23-10s13 10 24 10"/></svg>
+        <span class="brand-name">Severn <span class="brand-amp">&amp;</span> Tyne</span>
+      </a>
+      <nav class="site-nav" aria-label="Main">
+        <a href="#how">How it works</a>
+        <a href="#prices" data-prices-link>Prices</a>
+        <a href="#questions">Questions</a>
+        <a class="site-nav-contact" href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <form class="maker wrap" id="maker" action="p/" method="get" novalidate>
+        <div class="maker-copy">
+          <h1 id="hero-title"><span>Type your business name.</span> <span>See your website.<svg class="river-underline" viewBox="0 0 300 14" preserveAspectRatio="none" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path pathLength="1" d="M1 8C44 10 57 2 92 3S151 12 194 7 257 2 299 4"/><path pathLength="1" d="M1 12C47 14 59 6 93 7S151 16 195 11 256 6 299 8"/></svg></span></h1>
+          <p class="hero-sub">Try a working website for your shop, kitchen or workshop. Keep the link and share it.</p>
+        </div>
+
+        <div class="maker-main">
+          <div class="field field-name">
+            <label for="f-name">Your business name</label>
+            <input id="f-name" name="n" type="text" maxlength="60" autocomplete="organization" autocapitalize="words" spellcheck="false" enterkeyhint="go" placeholder="e.g. Rosa’s Kitchen" aria-describedby="preview-status">
+          </div>
+
+          <fieldset class="trades">
+            <legend>Your trade</legend>
+            <div class="chips" id="trade-chips">
+              <label class="chip"><input type="radio" name="t" value="barber" checked><span>Barber</span></label>
+              <label class="chip"><input type="radio" name="t" value="salon"><span>Salon</span></label>
+              <label class="chip"><input type="radio" name="t" value="restaurant"><span>Restaurant or cafe</span></label>
+              <label class="chip"><input type="radio" name="t" value="shop"><span>Shop</span></label>
+              <label class="chip"><input type="radio" name="t" value="garage"><span>Garage</span></label>
+              <label class="chip"><input type="radio" name="t" value="trades"><span>Trades</span></label>
+            </div>
+          </fieldset>
+          <fieldset id="kinds" hidden>
+            <legend>What kind?</legend>
+            <div class="chips" id="kind-chips"></div>
+          </fieldset>
+        </div>
+
+        <figure class="maker-phone">
+          <figcaption>Live preview</figcaption>
+          <div class="phone">
+            <div class="phone-screen">
+              <iframe id="preview" title="Live preview of your demo website" tabindex="-1" aria-hidden="true" loading="eager"></iframe>
+            </div>
+          </div>
+        </figure>
+        <div class="maker-theme">
+          <fieldset class="styles" id="styles"><legend>Style</legend><div class="chips" id="style-options"></div></fieldset>
+          <div class="swatches" id="swatches" role="radiogroup" aria-labelledby="swatches-label" hidden>
+            <span class="swatches-label" id="swatches-label">Colour</span>
+            <div class="swatch-row" id="swatch-row"></div>
+          </div>
+        </div>
+        <p class="sr" id="preview-status" role="status" aria-live="polite"></p>
+
+        <div class="maker-extra">
+          <div class="field field-town">
+            <label for="f-town">Town or area <span class="optional">(optional)</span></label>
+            <input id="f-town" name="town" type="text" maxlength="40" autocomplete="address-level2" autocapitalize="words" enterkeyhint="go" placeholder="e.g. Jesmond">
+          </div>
+
+          <details class="more" id="more">
+            <summary><span class="more-icon" aria-hidden="true"></span>Add a phone number or a short line</summary>
+            <div class="more-fields">
+              <div class="field">
+                <label for="f-phone">Phone number <span class="optional">(optional)</span></label>
+                <input id="f-phone" name="ph" type="tel" inputmode="tel" maxlength="20" autocomplete="tel" enterkeyhint="go">
+              </div>
+              <div class="field">
+                <label for="f-tag">A short line about you <span class="optional">(optional)</span></label>
+                <input id="f-tag" name="tag" type="text" maxlength="90" enterkeyhint="go" placeholder="e.g. Cuts and beard trims">
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <div class="maker-actions">
+          <div class="action-row">
+            <button class="btn btn-primary" type="submit" id="open-demo">Open my full demo</button>
+            <a class="btn btn-secondary" id="send-wa" href="https://wa.me/" target="_blank" rel="noopener">Share on WhatsApp</a>
+          </div>
+          <p class="copy-row">
+            <button class="text-btn" type="button" data-copy-link aria-describedby="copy-status-hero">Copy my demo link</button>
+            <span class="copy-status" id="copy-status-hero" data-copy-status role="status"></span>
+          </p>
+        </div>
+      </form>
+    </section>
+
+    <section class="section get" aria-labelledby="get-title">
+      <div class="wrap get-grid">
+        <div class="section-intro">
+          <h2 id="get-title">What you get</h2>
+          <p>Pay once for the build. Choose the care plan if you want us to look after the site.</p>
+        </div>
+        <ul class="get-list">
+          <li>
+            <h3>A real website on your own domain</h3>
+            <p>Your name in the address, like yourshop.co.uk. Customers can go straight to your site.</p>
+          </li>
+          <li>
+            <h3>A local phone number that rings your mobile, if you want one</h3>
+            <p>Put it on the site, your cards and the window. Calls come straight through to you.</p>
+          </li>
+          <li>
+            <h3>Hosting and updates</h3>
+            <p>We keep the site online and up to date. New prices or holiday hours? Send a message and we change it.</p>
+          </li>
+          <li>
+            <h3>Monthly posts and short videos on the care plan</h3>
+            <p>We make them for your website and social pages.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section extras" hidden aria-labelledby="extras-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="extras-title">Try the extras</h2>
+          <p>Working examples we built for other demos. Each one opens in a new tab.</p>
+        </div>
+        <ul class="extra-list">
+          <li data-extra="ordering" hidden>
+            <a class="extra" href="extras/ordering/" target="_blank" rel="noopener">
+              <span class="extra-title">Order at your table</span>
+              <span class="extra-text">Guests order from their phone at the table and the kitchen sees each order come in.</span>
+              <span class="sr">(opens in a new tab)</span>
+            </a>
+          </li>
+          <li data-extra="assistant" hidden>
+            <a class="extra" href="extras/assistant/" target="_blank" rel="noopener">
+              <span class="extra-title">An “Ask” assistant</span>
+              <span class="extra-text">Answers questions about opening times, the menu and booking, using your own details.</span>
+              <span class="sr">(opens in a new tab)</span>
+            </a>
+          </li>
+          <li data-extra="spin" hidden>
+            <a class="extra" href="extras/spin/" target="_blank" rel="noopener">
+              <span class="extra-title">See it on your table, in 3D</span>
+              <span class="extra-text">Spin a 3D model with your finger. On a phone you can place it in the room in front of you.</span>
+              <span class="sr">(opens in a new tab)</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section how" id="how" aria-labelledby="how-title">
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="how-title">How it works</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span class="step-stop" aria-hidden="true">1</span>
+            <h3>See your demo today</h3>
+            <p>Type your name at the top of this page. That is your starting point, and it costs nothing.</p>
+          </li>
+          <li>
+            <span class="step-stop" aria-hidden="true">2</span>
+            <h3>We make it yours</h3>
+            <p>We add your prices, opening hours and any photos you supply. You check it on your phone.</p>
+          </li>
+          <li>
+            <span class="step-stop" aria-hidden="true">3</span>
+            <h3>Live on your own domain</h3>
+            <p>The site goes live at your own address, with the contact details you choose.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section prices" id="prices" aria-labelledby="prices-title" data-prices>
+      <div class="wrap"><div class="price-sheet prices-grid">
+        <div class="section-intro">
+          <h2 id="prices-title">Prices</h2>
+          <p class="sr" data-price-sentence>Websites from £399. Care plan from £99 a month: hosting, your phone number, updates and monthly content.</p>
+        </div>
+        <div class="price">
+          <p class="price-label">Website</p>
+          <p class="price-figure" data-price-website><span class="price-from">from</span> <span class="price-amount">£399</span></p>
+          <p class="price-note">Built from your own photos, prices and words.</p>
+        </div>
+        <div class="price">
+          <p class="price-label">Care plan</p>
+          <p class="price-figure" data-price-care><span class="price-from">from</span> <span class="price-amount">£99</span> <span class="price-per">a month</span></p>
+          <p class="price-note" data-price-includes>Hosting, your phone number, updates and monthly content.</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <section class="section work" id="work" aria-labelledby="work-title" hidden>
+      <div class="wrap">
+        <div class="section-intro">
+          <h2 id="work-title">Recent work</h2>
+        </div>
+        <ul class="work-list" id="work-list"></ul>
+      </div>
+    </section>
+
+    <section class="section faq" id="questions" aria-labelledby="faq-title">
+      <div class="wrap faq-grid">
+        <div class="section-intro">
+          <h2 id="faq-title">Questions</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>How fast can my site be live?</summary>
+            <p>We agree a date with you before we start.</p>
+          </details>
+          <details>
+            <summary>Who owns the domain?</summary>
+            <p>Your domain is registered for your business and you can take it with you.</p>
+          </details>
+          <details>
+            <summary>What does the monthly plan cover?</summary>
+            <p>Hosting, your local phone number, updates when you ask for them, and new posts and short videos each month.</p>
+          </details>
+          <details>
+            <summary>Can I change things later?</summary>
+            <p>Yes. Send us a message with what you want changed, like new prices, a new photo or holiday hours, and we update the site for you.</p>
+          </details>
+          <details>
+            <summary>I already have a website. Can you help?</summary>
+            <p>Yes. We can rebuild it and move it across to your existing address, so customers still find you in the same place.</p>
+          </details>
+          <details>
+            <summary>Do I need to supply photos?</summary>
+            <p>Your own photos work best, and phone photos are fine. If you have none, we can start with what is on your Google listing, with your permission, and add better ones later.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact" aria-labelledby="contact-title">
+      <div class="wrap contact-grid">
+        <div class="section-intro">
+          <h2 id="contact-title">Get in touch</h2>
+        </div>
+        <div class="contact-body">
+          <p id="contact-person" hidden></p>
+          <div id="contact-ways" hidden></div>
+          <div id="contact-soon">
+            <p class="contact-soon">Contact details coming soon.</p>
+            <p class="contact-hint">Make a demo at the top of this page, then copy its link so you can come back to it.</p>
+          </div>
+          <p class="copy-row">
+            <button class="btn btn-secondary" type="button" data-copy-link aria-describedby="copy-status-contact">Copy my demo link</button>
+            <span class="copy-status" id="copy-status-contact" data-copy-status role="status"></span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap site-foot-in">
+      <a class="brand" href="./" aria-label="Severn &amp; Tyne, home">
+        <svg class="brand-mark" viewBox="0 0 51 33" width="43" height="32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M2 14C12 14 14 4 25 4s13 10 24 10M2 26c10 0 12-10 23-10s13 10 24 10"/></svg>
+        <span class="brand-name">Severn <span class="brand-amp">&amp;</span> Tyne</span>
+      </a>
+      <p class="foot-line">Severn &amp; Tyne. Websites for local businesses.</p>
+      <p class="foot-small">Named after the rivers that run through Worcester and Newcastle.</p>
+    </div>
+  </footer>
+</body>
+</html>

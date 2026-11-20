@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Website preview | Severn &amp; Tyne</title>
+  <meta name="description" content="A demo website made by Severn &amp; Tyne. Open it, try it and share it.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Your website preview, made by Severn &amp; Tyne">
+  <meta property="og:description" content="A demo website for your business. Open it on your phone and try it.">
+  <meta property="og:image" content="../og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#203d32">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../assets/preview.css">
+  <script>
+    (function () {
+      var embed = new URLSearchParams(location.search).get("embed") === "1";
+      document.documentElement.classList.add("js", embed ? "is-embed" : "has-strip");
+    })();
+  </script>
+  <script type="module" src="../assets/preview.js"></script>
+</head>
+<body>
+  <a class="st-skip" href="#kit-main">Skip to the website</a>
+
+  <div class="st-strip" id="strip" role="region" aria-label="Preview made by Severn &amp; Tyne">
+    <a class="st-mark" href="../" aria-label="Severn &amp; Tyne home">
+      <svg viewBox="0 0 51 33" width="28" height="19" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M2 14C12 14 14 4 25 4s13 10 24 10M2 26c10 0 12-10 23-10s13 10 24 10"/></svg>
+    </a>
+    <p class="st-text">
+      <span class="st-full">Preview made for <b data-strip-name>Your Business</b> by Severn &amp; Tyne</span>
+      <span class="st-compact" aria-hidden="true"><span class="st-small">Preview for</span><b data-strip-name>Your Business</b></span>
+    </p>
+    <a class="st-edit" id="strip-edit" href="../">Edit</a>
+    <a class="st-live" id="strip-live" href="../#contact">Make it live</a>
+  </div>
+
+  <div class="kit-root" id="kit" data-state="loading"></div>
+
+  <noscript>
+    <div class="st-noscript">
+      <p>This preview needs JavaScript. Turn it on and reload the page, or go back to <a href="../">Severn &amp; Tyne</a>.</p>
+    </div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,121 @@
+/* The preview page: the slim Severn & Tyne strip on top of a kit, and the embed mode used
+   inside the studio's phone. Kit styles are added by each kit module. */
+:root {
+  --st-ink: #203d32;
+  --st-paper: #F1ECE2;
+  --st-paper-muted: #d7dece;
+  --st-font: "Avenir Next", "Avenir", "Segoe UI Variable Text", "Segoe UI", Roboto, system-ui, sans-serif;
+  --strip-h: 0px;
+  --kit-safe-top: env(safe-area-inset-top, 0px);
+  --k-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --k-ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
+}
+html.has-strip {
+  --strip-h: calc(56px + env(safe-area-inset-top, 0px));
+  --kit-safe-top: 0px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html {
+  overflow-x: clip;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
+  scroll-padding-top: calc(var(--strip-h) + 72px);
+}
+body {
+  margin: 0;
+  overflow-x: clip;
+  padding-top: var(--strip-h);
+}
+a, button, input, label, summary { touch-action: manipulation; }
+
+.st-skip {
+  position: fixed; z-index: 400; top: 8px; left: 8px;
+  padding: 12px 16px; min-height: 44px;
+  background: var(--st-paper); color: var(--st-ink);
+  font: 600 15px/1.2 var(--st-font);
+  transform: translateY(-200%);
+}
+.st-skip:focus { transform: none; }
+.is-embed .st-skip, .is-embed .st-strip { display: none; }
+
+.st-strip {
+  position: fixed; z-index: 150; top: 0; left: 0; right: 0;
+  height: var(--strip-h);
+  display: flex; align-items: center; gap: 8px;
+  padding: env(safe-area-inset-top, 0px) max(10px, env(safe-area-inset-right, 0px)) 0 max(12px, env(safe-area-inset-left, 0px));
+  background: var(--st-ink); color: var(--st-paper);
+  font: 14px/1.25 var(--st-font);
+  border-bottom: 1px solid rgba(241, 236, 226, 0.14);
+}
+.st-mark {
+  flex: none; display: grid; place-items: center;
+  width: 44px; height: 44px; margin-left: -4px; color: var(--st-paper);
+}
+.st-text { flex: 1 1 auto; min-width: 0; margin: 0; }
+.st-full, .st-compact b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-full b, .st-compact b { font-weight: 650; }
+.st-compact { display: none; }
+.st-small { display: block; font-size: 12px; color: var(--st-paper-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.st-compact b { font-size: 15px; }
+.st-edit, .st-live {
+  flex: none; min-width: 44px; white-space: nowrap; display: inline-flex; align-items: center; justify-content: center;
+  min-height: 44px; border-radius: 8px;
+  font: 600 15px/1 var(--st-font); text-decoration: none;
+  -webkit-user-select: none; user-select: none;
+  transition: transform 120ms var(--k-ease-out), background-color 160ms ease;
+}
+.st-edit { padding: 0 10px; color: var(--st-paper); text-decoration: underline; text-underline-offset: 0.2em; text-decoration-color: rgba(241, 236, 226, 0.5); }
+.st-live { padding: 0 14px; background: var(--st-paper); color: var(--st-ink); }
+.st-edit:active, .st-live:active { transform: scale(0.97); }
+.st-strip :focus-visible { outline: 3px solid #d4e3c5; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .st-live:hover { background: #fff; }
+  .st-edit:hover { text-decoration-color: currentColor; }
+}
+@media (max-width: 699px) {
+  .st-full {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+  .st-compact { display: block; }
+}
+@media (max-width: 359px) {
+  .st-mark { display: none; }
+  .st-live { padding: 0 10px; font-size: 14px; }
+  .st-edit { padding: 0 8px; font-size: 14px; }
+}
+
+.kit-root { min-height: 100vh; transition: opacity 180ms var(--k-ease-out); }
+.kit-root[data-state="loading"] { opacity: 0; }
+.kit-root[data-state="swapping"] { opacity: 0; transition-duration: 110ms; }
+
+.st-noscript { padding: 96px 24px; max-width: 34rem; margin: 0 auto; font: 18px/1.5 var(--st-font); color: var(--st-ink); }
+.st-noscript a { color: inherit; }
+
+.is-embed, .is-embed body { scrollbar-width: none; }
+.is-embed::-webkit-scrollbar, .is-embed body::-webkit-scrollbar { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kit-root, .st-edit, .st-live { transition: none !important; }
+}
+
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 180ms; animation-timing-function: ease-out; }
+ 
+#kit header small[data-bind='kind-label'] { display: block; margin-top: 2px; font: 500 12px/1.2 var(--k-font-text); letter-spacing: normal; text-transform: none; }
+
+#kit h1, #kit [data-bind="tagline"] { text-wrap: balance; }
+#kit .hero-ending { display: inline-block; max-width: 100%; }
+#kit [data-bind="describe"] { text-transform: none; letter-spacing: normal; }
+#kit .visit-note { display: block; margin-top: .5em; font: 14px/1.45 var(--k-font-text); }
+#kit .example-hours { width: min(100%, 32rem); margin: 12px 0 0; padding: 0; font-variant-numeric: tabular-nums; }
+.example-hours > div { display: flex; justify-content: space-between; gap: 1em; padding: 7px 0; border-bottom: 1px solid var(--k-line); }
+.example-hours dd { margin: 0; text-align: right; }
+@media (max-width: 480px) {
+  .st-live { max-width: 8em; white-space: normal; text-align: center; line-height: 1.16; padding-inline: 8px; }
+}
+
+.service-choices { display: grid; gap: 8px; margin-top: 16px; }
+.service-choices button { justify-content: start; }
+.service-summary { margin: 0 0 16px; font-weight: 600; }
+.service-request { display: grid; grid-template-columns: auto 1fr; gap: 10px 16px; padding-block: 16px; border-block: 1px solid var(--k-line); }
+.service-request dd { margin: 0; overflow-wrap: anywhere; font-weight: 600; }
