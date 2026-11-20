@@ -1,3 +1,4 @@
+import { tradeArt } from "./trade-art.js";
 import { button, call, renderPage } from "./local-page.js";
 import { wireQuotes, quoteCss } from "./quote-flow.js";
 
@@ -55,6 +56,7 @@ export default {
     const rows = jobs.map(job => `<li><button type="button" class="local-row" data-quote="${job}" aria-label="Get a quote for ${job}">
       <strong>${job}</strong></button></li>`).join("");
     renderPage(root,data,this,{
+      art: tradeArt(data.kind.id, this.skin === "block-print", this.art),
       nav:"Services",heading:"Services",example:"Example jobs",rows:`<ul class="local-list quote-services">${rows}</ul>`,primary,
       sticky:call.replace('class="local-call"', 'class="local-action local-call"') + '<button class="local-call quote-link" type="button" data-quote>Get a quote</button>',
       details:process,

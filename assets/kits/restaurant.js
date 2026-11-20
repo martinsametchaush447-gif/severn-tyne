@@ -5,6 +5,7 @@ import { hours, findUs } from "./visit.js";
   nothing is sent), a book-a-table demo, hours, find us and a sticky bar.
 */
 import { addStyles, applyData, wireCallNotes, formatMoney, ICON_PHONE } from "../kit-core.js";
+import { menuArt } from "./menu-art.js";
 import { wireDining } from "./restaurant-flow.js";
 
 const ACCENTS = [
@@ -90,15 +91,19 @@ function menuItems(section) {
     .join("");
 }
 
-const template = (menu, kind) => `
+const tableAction = (classes, collectionOnly) => collectionOnly
+  ? `<a class="k-btn k-btn-primary ${classes}" href="#rs-menu">View menu</a>`
+  : `<button type="button" class="k-btn k-btn-primary ${classes}" data-table>Book a table</button>`;
+
+const template = (menu, kind, collectionOnly) => `
 <div class="rs">
   <header class="rs-head">
     <a class="rs-brand" href="#kit-main">
       <span class="rs-mono" aria-hidden="true"><span data-bind="initials"></span></span>
       <span class="rs-brand-name"><span data-bind="name"></span><small data-bind="kind-label"></small></span>
     </a>
-    <nav class="rs-nav" aria-label="Sections"><a href="#rs-menu">Menu</a><a href="#rs-visit">Visit</a></nav>
-    <button type="button" class="k-btn k-btn-primary rs-head-book" data-table>Book a table</button>
+    <nav class="rs-nav" aria-label="Sections"><a href="#rs-menu">Menu</a><a href="#rs-visit" ${collectionOnly ? 'data-if="town"' : ""}>Visit</a></nav>
+    ${tableAction("rs-head-book", collectionOnly)}
   </header>
 
   <main id="kit-main" tabindex="-1">
@@ -110,10 +115,10 @@ const template = (menu, kind) => `
           <p class="rs-tagline" data-bind="tagline"></p>
           <div class="rs-actions">
             <a class="k-btn rs-btn-cream" href="#rs-menu">Order for collection</a>
-            <button type="button" class="k-btn rs-btn-line" data-table>Book a table</button>
+            ${collectionOnly ? "" : '<button type="button" class="k-btn rs-btn-line" data-table>Book a table</button>'}
           </div>
         </div>
-        ${PLATE_SVG}
+        ${menuArt(kind, "a", PLATE_SVG)}
       </div>
     </section>
 
@@ -139,14 +144,14 @@ const template = (menu, kind) => `
       </div>
     </section>
 
-    <section class="rs-visit" id="rs-visit" aria-label="Book a table and find us">
+    <section class="rs-visit" id="rs-visit" aria-label="Visit" ${collectionOnly ? 'data-if="town"' : ""}>
       <div class="rs-wrap rs-visit-grid">
-        <div class="rs-card rs-book">
+        ${collectionOnly ? "" : `<div class="rs-card rs-book">
           <h2>Book a table</h2>
           <p>Pick a day, a time and how many of you.</p>
           <button type="button" class="k-btn k-btn-primary" data-table>Book a table</button>
-        </div>
-        <div class="rs-card rs-find">
+        </div>`}
+        <div class="rs-card rs-find" data-if="town">
           ${findUs}
           <a class="k-btn k-btn-ghost" href="#call" data-call>${ICON_PHONE}<span data-call-label>Call us</span></a>
         </div>
@@ -164,7 +169,7 @@ const template = (menu, kind) => `
 
   <div class="rs-bar" data-empty="true">
     <a class="k-btn k-btn-ghost rs-bar-call" href="#call" data-call="short">${ICON_PHONE}<span data-call-label>Call us</span></a>
-    <button type="button" class="k-btn k-btn-primary rs-bar-book" data-table>Book a table</button>
+    ${tableAction("rs-bar-book", collectionOnly)}
     <button type="button" class="k-btn k-btn-primary rs-bar-order" data-order hidden>
       <span class="rs-bar-count" aria-hidden="true">0</span>
       <span class="rs-bar-label">View order</span>
@@ -299,7 +304,7 @@ html[data-kit=restaurant] body{background:#FAF5EC}
 function render(root, data) {
   addStyles("restaurant", CSS);
   const menu = data.kind.menu ?? MENU;
-  root.innerHTML = template(menu, data.kind.id);
+  root.innerHTML = template(menu, data.kind.id, data.kind.collectionOnly);
   applyData(root, data, kit);
   wireCallNotes(root);
   wireDining(root, menu.flatMap((section) => section.items));

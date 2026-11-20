@@ -21,13 +21,13 @@ export default {
     .colour-study .local-mast{border-color:#706771}.colour-study .local-mono{border:0;background:#f2d6df;color:#282028;font-size:18px;font-weight:700}
     .colour-study .local-hero-grid{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
     .colour-study .local-copy{grid-column:2;grid-row:1}.colour-study .local-art{grid-column:1;grid-row:1;background:#d9a3b2;overflow:hidden}
-    .colour-study .local-trade{color:#edd8da}.colour-study .local-tag{font-family:"Courier New",monospace;font-size:16px}
+    .colour-study .local-trade{color:#edd8da}.colour-study .local-tag{font-size:16px}
     .colour-study .local-action{box-shadow:inset 0 0 0 1px #ffffff60}.colour-study .local-offer{display:grid;grid-template-columns:1fr 1.3fr;gap:32px}
     .colour-study .local-section-head{display:block}.colour-study .local-example{margin-top:10px}.colour-study .local-list>li{border-top:2px solid var(--ink);border-bottom:0}
     .colour-study .local-details{background:#e9dce0}
     @media(max-width:720px){.colour-study .local-hero-grid{grid-template-columns:minmax(0,1fr);padding-block:17px 29px;gap:18px}
      .colour-study .local-art{grid-area:auto;order:-1;justify-self:stretch;width:100%;height:110px;display:grid;place-items:center}
-     .colour-study .local-art svg{height:135%;width:auto;transform:rotate(-9deg)}.colour-study .local-copy{grid-area:auto}
+     .colour-study .local-art svg{height:135%;width:auto;transform:rotate(-9deg)}.colour-study .local-art svg[data-art]{height:100%;transform:none}.colour-study .local-copy{grid-area:auto}
      .colour-study .local-offer{display:block}.colour-study .local-example{margin-top:5px}}
   `,
 };

@@ -1,3 +1,4 @@
+import { counterArt } from "./counter-art.js";
 import { formatMoney } from "../kit-core.js";
 import { wireDining } from "./restaurant-flow.js";
 import { call, renderPage } from "./local-page.js";
@@ -27,7 +28,7 @@ export default {
     .awning .local-hero:before{content:"";position:absolute;inset:0 0 auto;height:18px;background:repeating-linear-gradient(90deg,var(--accent) 0 24px,#f6d68c 24px 48px);mask:radial-gradient(ellipse 12px 9px at 12px 9px,#000 98%,transparent) 0 100%/24px 100% repeat-x,linear-gradient(#000 0 0) top/100% 55% no-repeat}
     .awning .local-hero-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);padding-block:30px}.awning .local-art svg{width:110%}
     .awning h1,.awning .local-trade{color:var(--accent)}.awning .local-trade{font:italic 20px Georgia,serif}
-    .awning .local-offer{max-width:940px}.awning .local-group{background:var(--accent);color:var(--accent-ink);font:600 18px/1.3 var(--display);padding:7px 12px;margin-top:20px}
+    .awning .local-group{background:var(--accent);color:var(--accent-ink);font:600 18px/1.3 var(--display);padding:7px 12px;margin-top:20px}
     .awning .local-list>li{border-bottom-style:dotted}.awning .local-details{background:#f6edcd}
     @media(max-width:720px){.awning .local-hero-grid{position:relative;display:block;padding-block:27px 35px}
       .awning .local-art{position:absolute;right:0;bottom:9px;width:clamp(77px,25%,108px)}.awning .local-tag{max-width:70%}.awning .local-copy .local-action{max-width:calc(100% - 69px)}}
@@ -39,7 +40,8 @@ export default {
       <div class="rs-qty" data-item="${item.id}"></div></li>`).join("")}</ul>`).join("");
     const primary = '<a class="local-action rs-bar-book" href="#offer">Order for collection</a>';
     const basket = '<button class="local-action rs-bar-order" type="button" data-order hidden><span class="rs-bar-count"></span>View order <span class="rs-bar-total"></span></button>';
-    renderPage(root,data,this,{
+    renderPage(root, data, this, {
+      art: counterArt(data.kind.id, this.skin === "parcel", this.art),
       nav:"The counter",heading:"Today’s counter",example:"Example products and prices",rows,
       primary:primary.replace(" rs-bar-book",""),sticky:call + primary + basket,
     });

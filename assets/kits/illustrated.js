@@ -72,6 +72,7 @@ ul,ol,dl{margin:0;padding:0}.shop-foot{padding:27px 0 100px;font:italic 20px var
 
 .shop-foot small{display:block;margin-top:6px;font:13px/1.4 var(--k-font-text)}
 .heading-row a{flex-shrink:0}
+.identity>span:last-child{min-width:0}.identity [data-bind=name]{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .illustrated .kit-primary{color:var(--accent-ink)}
 .restaurant .rs-add{display:inline-grid;place-items:center;padding:0;font-size:0;line-height:1}
 .rs-add svg{display:block;width:16px;height:16px}
@@ -101,7 +102,7 @@ export function renderIllustrated(root, data, kit, { nav, art, section, content,
         <section class="offer shop-wrap" id="offer" tabindex="-1">${section}</section>
         ${content ?? ""}
         <section class="hours"><div class="shop-wrap location-layout"><div>${hours(kit.id, data.kind.id)}</div></div></section>
-        <section class="location"><div class="shop-wrap location-layout"><div>${findUs}</div></div></section>
+        <section class="location" data-if="town"><div class="shop-wrap location-layout"><div>${findUs}</div></div></section>
       </main>
       <footer class="shop-foot shop-wrap"><span data-bind="name"></span><small>Example website by Severn &amp; Tyne</small></footer>
       <div class="sticky ${barClass}"><div class="shop-wrap sticky-inner">${sticky}</div></div>

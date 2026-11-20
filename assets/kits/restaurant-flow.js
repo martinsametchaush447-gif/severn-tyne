@@ -1,4 +1,4 @@
-import { withinHours } from "./visit.js";
+import { nextCollection, withinHours } from "./visit.js";
 import { addStyles, h, openSheet, updateSheet, closeSheet, dateTimePicker, exampleFreeTimes, detailsForm, formatMoney, formatLongDate, announce, hashString } from "../kit-core.js";
 
 const PARTY_SIZES = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -178,11 +178,8 @@ function createOrderFlow(root, basket) {
     const shop = root.kitData;
     const lines = basket.lines();
     const total = basket.total();
-    const orderedAt = new Date();
-    const fiveMinutes = 5 * 60_000;
-    const collection = new Date(Math.ceil((orderedAt.getTime() + 25 * 60_000) / fiveMinutes) * fiveMinutes);
+    const {ready: collection, day} = nextCollection(root.dataset.kit, shop.kind.id);
     const clock = collection.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
-    const day = collection.toDateString() === orderedAt.toDateString() ? "" : " tomorrow";
     const reference = String(1000 + (hashString(`${Date.now()}`) % 9000));
     const body = h(
       "div",

@@ -88,7 +88,10 @@ function setChips(box, options, name, active) {
 function renderKinds() {
   const kinds = KINDS[state.t];
   document.getElementById("kinds").hidden = kinds.length < 2;
-  setChips(document.getElementById("kind-chips"), kinds, "k", state.k);
+  const row = document.getElementById("kind-chips");
+  row.classList.toggle("many-kinds", kinds.length > 4);
+  setChips(row, kinds, "k", state.k);
+  row.scrollLeft = 0;
 }
 
 function renderStyles() {
@@ -150,17 +153,6 @@ function renderSwatches(accents, activeKey) {
   );
   swatchBox.hidden = false;
 }
-
-window.addEventListener("message", (event) => {
-  if (event.source !== frame.contentWindow || event.origin !== location.origin) return;
-  const message = event.data ?? {};
-  if (message.type === "severn:ready") {
-    previewReady = true;
-    postToPreview();
-  } else if (message.type === "severn:kit" && message.trade === state.t && message.style === cleanState().s) {
-    renderSwatches(message.accents ?? [], message.accent);
-  }
-});
 
 /* ---------- Links ---------- */
 
@@ -404,12 +396,14 @@ function start() {
   initialPreview.searchParams.set("embed", "1");
   frame.src = initialPreview.href;
   const choices = document.getElementById("styles");
+  let revealStyleControls = false;
   function chooseStyle(event) {
     const input = event.target;
     if (input.name !== "s" || input.value === state.s) return;
     const changed = cleanState().s !== input.value;
     state.s = input.value;
     if (changed) {
+      revealStyleControls = true;
       state.a = "";
       swatchBox.hidden = true;
       refresh({ immediately: true });
@@ -417,7 +411,7 @@ function start() {
   }
   const theme = document.querySelector(".maker-theme");
   function keepThemeInView() {
-    if (!matchMedia("(max-width: 740px)").matches) return;
+    if (!matchMedia("(max-width: 740px)").matches || document.activeElement === fields.n) return;
     const preview = document.querySelector(".maker-phone").getBoundingClientRect();
     const bottom = theme.getBoundingClientRect().bottom;
     const available = innerHeight - (form.classList.contains("has-name") ? 56 : 8);
@@ -425,6 +419,20 @@ function start() {
       window.scrollBy(0, preview.top - 4);
     }
   }
+  window.addEventListener("message", (event) => {
+    if (event.source !== frame.contentWindow || event.origin !== location.origin) return;
+    const message = event.data ?? {};
+    if (message.type === "severn:ready") {
+      previewReady = true;
+      postToPreview();
+    } else if (message.type === "severn:kit" && message.trade === state.t && message.style === cleanState().s) {
+      renderSwatches(message.accents ?? [], message.accent);
+      if (revealStyleControls) {
+        revealStyleControls = false;
+        keepThemeInView();
+      }
+    }
+  });
   theme.addEventListener("focusin", keepThemeInView);
   theme.addEventListener("click", () => requestAnimationFrame(keepThemeInView));
   choices.addEventListener("change", chooseStyle);
@@ -442,6 +450,17 @@ function start() {
       refresh();
     });
   }
+  function revealPreview() {
+    if (!matchMedia("(max-width: 740px)").matches || document.activeElement === fields.n) return;
+    const preview = document.querySelector(".maker-phone");
+    const bottom = (window.visualViewport?.height ?? innerHeight) - parseFloat(getComputedStyle(preview).scrollMarginBottom || "0");
+    if (preview.getBoundingClientRect().bottom > bottom + 1) {
+      preview.scrollIntoView({block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"});
+    }
+  }
+  form.addEventListener("click", event => {
+    if (event.target.matches("#trade-chips input, #kind-chips input")) requestAnimationFrame(revealPreview);
+  });
   chipBox.addEventListener("change", (event) => {
     if (event.target.name !== "t") return;
     state.t = resolveTrade(event.target.value);

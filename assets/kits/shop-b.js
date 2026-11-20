@@ -19,7 +19,8 @@ export default {
     .parcel{--hero:#e4ccab;--paper:#f5ead6;--ink:#262b2d;--line:#b6a78d;--k-btn-radius:0;
      --display:"Franklin Gothic Medium","Arial Narrow",Arial,sans-serif;--weight:750}
     .parcel .local-mast{border-bottom:1px dashed var(--ink)}.parcel .local-mono{background:var(--accent);color:var(--accent-ink);border:0;font-weight:700}
-    .parcel .local-lockup,.parcel .local-trade,.parcel .local-group,.parcel .local-example,.parcel .local-price{font-family:"Courier New",monospace}
+    .parcel .local-trade{font-family:"Courier New",monospace}
+    #kit .parcel :is(.local-group,.local-example,.local-price,.visit-note,.local-foot){font-family:var(--k-font-text);font-variant-numeric:tabular-nums}
     .parcel .local-hero{padding-block:clamp(14px,2vw,30px);border-bottom:1px dashed var(--ink)}
     .parcel .local-hero-grid{position:relative;background:#fff9e9;border:1px solid var(--ink);box-shadow:4px 4px 0 #2d373a;
       column-gap:20px;padding:clamp(22px,4vw,58px);grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr)}

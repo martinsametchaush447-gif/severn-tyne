@@ -1,3 +1,4 @@
+import { workshopArt } from "./workshop-art.js";
 import { wireServiceRequests } from "./garage-flow.js";
 import { renderIllustrated, call } from "./illustrated.js";
 
@@ -29,7 +30,7 @@ export default {
       <div><dt>Suspension</dt><dd>Springs, dampers and worn joints.</dd></div></dl>`;
     const problems = data.kind.problems ?? ["A warning light on the dashboard", "A knock over bumps", "Brakes squealing", "A car that struggles to start"];
     renderIllustrated(root, data, this, {
-      nav: 'Repairs', art,
+      nav: 'Repairs', art: workshopArt(data.kind.id, true, art),
       section:`<div class="section-head"><h2>What we fix</h2><p>Example services</p></div>${services}`,
       content:`<section class="workshop"><div class="shop-wrap workshop-grid"><div><h2>Common problems</h2><ul>${problems.map((problem) => `<li>${problem}</li>`).join("")}</ul></div>
       <div><h2>How it works</h2><ol><li><strong>Call the workshop</strong><p>Tell us what you’ve noticed.</p></li><li><strong>Diagnosis and quote</strong><p>We check the fault and talk through the price.</p></li><li><strong>Agree the repair</strong><p>We carry out the work you approve.</p></li></ol></div></div></section>`,

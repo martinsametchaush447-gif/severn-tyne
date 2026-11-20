@@ -33,9 +33,9 @@ export const KINDS = {
       category("Lunch", [["Cheddar toastie", "With onion chutney", 625], ["Tomato soup", "With a bread roll", 500]]),
       category("Coffee", [["Cappuccino", "Espresso and steamed milk", 320], ["Long black", "A double shot over hot water", 280]]),
     ] },
-    { id: "takeaway", label: "Takeaway", tagline: "Pick a main and a side for collection.", menu: [
-      category("From the grill", [["Chicken wrap", "With crunchy slaw", 750], ["Grilled halloumi wrap", "With peppers and yoghurt", 725]]),
-      category("On the side", [["Seasoned fries", "With paprika salt", 350], ["Garlic dip", "A small pot", 100]]),
+    { id: "takeaway", collectionOnly: true, label: "Takeaway", tagline: "Pick a main and a side for collection.", menu: [
+      category("Lunch boxes", [["Chicken lunch box", "Chicken, rice and mixed leaves", 750], ["Vegetable lunch box", "Roasted vegetables and rice", 680]]),
+      category("Extras", [["Side salad", "Leaves and cucumber", 250], ["Apple juice", "330 ml bottle", 190]]),
     ] },
     { id: "pizza", label: "Pizzeria", tagline: "Choose your pizza and a side for collection.", menu: [
       category("Pizzas", [["Margherita", "Tomato, mozzarella and basil", 950], ["Pepperoni", "Tomato, mozzarella and pepperoni", 1150], ["Funghi", "Mushrooms and garlic", 1050]]),
@@ -44,6 +44,18 @@ export const KINDS = {
     { id: "bakery-cafe", label: "Bakery café", tagline: "A morning bun, a sandwich and a cup of coffee.", menu: [
       category("From the oven", [["Morning bun", "Cinnamon and brown sugar", 325], ["Almond croissant", "Flaked almonds and frangipane", 375]]),
       category("Lunch and coffee", [["Focaccia sandwich", "Roast peppers and pesto", 675], ["Caffè latte", "Espresso with steamed milk", 330]]),
+    ] },
+    { id: "curry-house", label: "Curry house", tagline: "Choose a curry, then add rice or bread.", menu: [
+      category("Curries", [["Chicken bhuna", "Onions, tomatoes and toasted spices", 975], ["Chana masala", "Chickpeas in a spiced tomato sauce", 825], ["King prawn jalfrezi", "Peppers and green chillies", 1295]]),
+      category("Rice and bread", [["Pilau rice", "Basmati with cardamom", 325], ["Garlic naan", "Topped with garlic and coriander", 350]]),
+    ] },
+    { id: "kebab", collectionOnly: true, label: "Kebab & grill", tagline: "Pick a skewer, a flatbread and your sauce.", menu: [
+      category("From the grill", [["Chicken shish", "Chargrilled pieces, flatbread and salad", 895], ["Lamb kofta", "Minced lamb skewers with sumac onions", 950]]),
+      category("On the side", [["Grilled peppers", "Sweet peppers with lemon", 295], ["Hummus and pitta", "Chickpeas, tahini and warm bread", 395]]),
+    ] },
+    { id: "chinese", label: "Chinese kitchen", tagline: "Steamed bao, pleated dumplings and noodles.", menu: [
+      category("From the steamer", [["Pork and chive dumplings", "Six dumplings with black vinegar", 650], ["Mushroom bao", "Two steamed buns with shiitake filling", 590]]),
+      category("From the wok", [["Beef chow mein", "Egg noodles with beef and beansprouts", 890], ["Egg fried rice", "With spring onions", 390]]),
     ] },
   ],
   shop: [

@@ -69,7 +69,7 @@ const template = (services, bookLabel, kind) => `
       <span class="bb-brand-name"><span data-bind="name"></span><small data-bind="kind-label"></small></span>
     </a>
     <nav class="bb-nav" aria-label="Sections">
-      <a href="#bb-services">Services</a><a href="#bb-hours">Hours</a><a href="#bb-find">Find us</a>
+      <a href="#bb-services">Services</a><a href="#bb-hours">Hours</a><a data-if="town" href="#bb-find">Find us</a>
     </nav>
     <button type="button" class="k-btn k-btn-primary bb-head-book" data-book>Book</button>
   </header>
@@ -108,7 +108,7 @@ const template = (services, bookLabel, kind) => `
         <div class="bb-sign">
           ${hours("barber", kind)}
         </div>
-        <div class="bb-find" id="bb-find">
+        <div class="bb-find" id="bb-find" data-if="town">
             ${findUs}
             <div class="bb-actions">
               <button type="button" class="k-btn k-btn-primary" data-book>${bookLabel}</button>

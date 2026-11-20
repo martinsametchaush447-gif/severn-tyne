@@ -11,16 +11,36 @@ const schedules = {
 
 function schedule(trade, kind) {
   if (kind === "bakery-cafe") return schedules.cafe;
-  if (kind === "pizza") return schedules.takeaway;
+  if (["pizza", "kebab", "curry-house", "chinese"].includes(kind)) return schedules.takeaway;
   return schedules[kind] ?? schedules[trade];
 }
 
-export function withinHours(slots, date, trade, kind) {
+function dailyHours(date, trade, kind) {
   const day = date.getDay();
   const range = schedule(trade, kind)[day === 0 ? 2 : day === 6 ? 1 : 0];
-  if (range === "Closed") return [];
-  const [open, close] = range.split("–");
-  return slots.filter(time => time >= open && time < close);
+  return range === "Closed" ? [] : range.split("–");
+}
+
+export function withinHours(slots, date, trade, kind) {
+  const [open, close] = dailyHours(date, trade, kind);
+  return open ? slots.filter(time => time >= open && time < close) : [];
+}
+
+export function nextCollection(trade, kind, orderedAt = new Date()) {
+  const date = new Date(orderedAt);
+  const fiveMinutes = 5 * 60_000;
+  for (let ahead = 0; ahead <= 7; ahead++, date.setDate(date.getDate() + 1)) {
+    const [open, close] = dailyHours(date, trade, kind);
+    if (!open) continue;
+    const opening = date.setHours(...open.split(":").map(Number), 0, 0);
+    const closing = date.setHours(...close.split(":").map(Number), 0, 0);
+    const start = Math.max(orderedAt.getTime(), opening);
+    const ready = new Date(Math.ceil((start + 25 * 60_000) / fiveMinutes) * fiveMinutes);
+    if (ready >= closing) continue;
+    const day = ahead === 0 ? "" : ahead === 1 ? " tomorrow" : " " + date.toLocaleDateString("en-GB", {weekday:"long"});
+    return {ready, day};
+  }
+  throw new Error("Example hours have no collection window this week");
 }
 
 export function hours(trade, kind) {
@@ -30,4 +50,4 @@ export function hours(trade, kind) {
   return `<h2>Opening hours</h2><small class="visit-note">Example hours</small><dl class="example-hours">${rows}</dl>`;
 }
 
-export const findUs = '<h2>Find us <span data-bind="in-town"></span></h2><small class="visit-note">Your address and map go here</small>';
+export const findUs = '<h2>Find us <span data-bind="in-town"></span></h2>';

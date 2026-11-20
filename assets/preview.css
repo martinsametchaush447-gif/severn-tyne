@@ -103,6 +103,7 @@ a, button, input, label, summary { touch-action: manipulation; }
  
 #kit header small[data-bind='kind-label'] { display: block; margin-top: 2px; font: 500 12px/1.2 var(--k-font-text); letter-spacing: normal; text-transform: none; }
 
+#kit [hidden]{display:none!important}
 #kit h1, #kit [data-bind="tagline"] { text-wrap: balance; }
 #kit .hero-ending { display: inline-block; max-width: 100%; }
 #kit [data-bind="describe"] { text-transform: none; letter-spacing: normal; }

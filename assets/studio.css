@@ -9,7 +9,7 @@
   --rule: #b8bcae;
   --serif: Georgia, "Times New Roman", serif;
   --sans: "Segoe UI", Arial, sans-serif;
-  --phone-scale: .59;
+  --phone-scale: .77;
   color-scheme: light;
   font: 16px/1.5 var(--sans);
   color: var(--ink);
@@ -144,7 +144,7 @@ html:not(.js) :is(.maker-phone,.maker-theme,#send-wa,[data-copy-link]) { display
 @media(max-width:940px) {
   .wrap { width: calc(100% - 54px); }
   .maker { column-gap: 24px; }
-  :root { --phone-scale: .54; }
+  :root { --phone-scale: .70; }
 }
 @media(max-width:740px) {
   .maker { --phone-scale: var(--mobile-scale, .64); }
@@ -159,6 +159,7 @@ html:not(.js) :is(.maker-phone,.maker-theme,#send-wa,[data-copy-link]) { display
   h1 { font-size: clamp(38px,9.5vw,62px); line-height: 1.03; }
   .hero-sub { font-size: 15px; line-height: 1.42; margin: 12px 0 0; }
   .maker-phone { align-self: center; padding: 26px 3px 10px; }
+  .has-name .maker-phone { scroll-margin-bottom: 56px; }
   .maker-phone figcaption { top: 7px; left: 0; right: 0; text-align: center; font-size: 12px; }
   .phone { border-width: 1px; border-radius: 18px; padding: 3px; box-shadow: 3px 4px 6px #35493242; }
   .phone-screen { border-radius: 14px; height: min(calc(664px * var(--phone-scale)), 50svh); }
@@ -174,7 +175,11 @@ html:not(.js) :is(.maker-phone,.maker-theme,#send-wa,[data-copy-link]) { display
   .maker-theme { justify-content: flex-start; gap: 6px 10px; }
   .styles .chip span { padding-inline: 8px; }
   .styles .chips { gap: 3px; }
-  .maker-main { gap: 12px; }
+  .maker-main { gap: 12px; min-width: 0; }
+  #kind-chips.many-kinds { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-x: contain; padding: 5px 18px 5px 4px; scrollbar-width: thin; }
+  #kind-chips.many-kinds .chip { flex: none; }
+  #kinds:has(.many-kinds) { position: relative; }
+  #kinds:has(.many-kinds)::after { content: ""; position: absolute; right: 0; bottom: 0; height: 100%; width: 16px; pointer-events: none; background: linear-gradient(to right, transparent, var(--paper)); }
   .maker-actions .action-row { gap: 2px 12px; }
   .get-grid, .faq-grid, .contact-grid, .extras .wrap, .how .wrap, .prices-grid { grid-template-columns: minmax(0,1fr); gap: 24px; }
   .foot-small { margin-left: 0; }

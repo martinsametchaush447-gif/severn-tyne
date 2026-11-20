@@ -240,10 +240,11 @@ export function applyData(root, data, kit) {
   root.dataset.sample = data.isSample ? "true" : "false";
 
   for (const node of root.querySelectorAll("[data-bind]")) {
-    const text = bindingText(node.dataset.bind, data, kit);
+    const value = bindingText(node.dataset.bind, data, kit);
+    const text = node.matches("h1") ? value.replace(/(?<!\p{L})(\p{Lu}\.) +/gu, "$1\u00a0") : value;
     if (node.textContent === text) continue;
     // Balance can still leave a single last word in a three-word business name.
-    const ending = node.matches("h1, [data-bind=tagline]") && text.match(/^(.+\s)(\S+\s+\S+)$/u);
+    const ending = node.matches("h1, [data-bind=tagline]") && text.match(/^(.+ )([^ ]+ +[^ ]+)$/u);
     if (ending) node.replaceChildren(ending[1], h("span", { class: "hero-ending", text: ending[2] }));
     else node.textContent = text;
   }

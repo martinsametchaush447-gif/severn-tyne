@@ -1,4 +1,5 @@
 import { renderIllustrated, call } from "./illustrated.js";
+import { menuArt } from "./menu-art.js";
 import { wireDining } from "./restaurant-flow.js";
 import { formatMoney } from "../kit-core.js";
 
@@ -45,9 +46,9 @@ export default {
       return `<h3 class="menu-category">${title}</h3><ul class="menu-list">${dishes}</ul>`;
     }).join("");
     renderIllustrated(root, data, this, {
-      nav: 'Menu', art,
+      nav: 'Menu', art: menuArt(data.kind.id, "b", art),
       section:'<div class="section-head"><h2>On the menu</h2><p>Example menu</p></div>' + list,
-      content:'<section class="table-section"><div class="shop-wrap location-layout"><h2>A table for you</h2><button type="button" class="text-button" data-table>Book a table</button></div></section>',
+      content:data.kind.collectionOnly ? "" : '<section class="table-section"><div class="shop-wrap location-layout"><h2>A table for you</h2><button type="button" class="text-button" data-table>Book a table</button></div></section>',
       barClass: 'rs-bar',
       sticky:call + '<a class="kit-primary rs-bar-book" href="#offer">Order for collection</a><button type="button" class="kit-primary rs-bar-order" data-order hidden><span class="rs-bar-count"></span>View order <span class="rs-bar-total"></span></button>'
     });

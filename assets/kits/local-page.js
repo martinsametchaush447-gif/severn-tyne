@@ -19,7 +19,9 @@ html:is([data-kit=salon],[data-kit=shop],[data-kit=trades]){
 .local-wrap{width:min(calc(100% - 2 * var(--inset)),1120px);margin-inline:auto}
 .local-head,.local-hero{background:var(--hero);color:var(--on-hero)}
 .local-mast{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:62px;border-bottom:1px solid currentColor}
-.local-lockup{display:flex;align-items:center;gap:9px;font-weight:600}
+.local-lockup{display:flex;align-items:center;gap:9px;min-width:0;font-weight:600}
+.local-business{min-width:0;line-height:1.15}.local-business [data-bind=name]{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.local-business small{display:block;margin-top:2px;font-weight:400}.local-mast>a{flex:none}
 .local-mono{display:inline-grid;place-items:center;min-width:33px;height:33px;border:1px solid;font:21px/1 var(--display)}
 .local-mast>a,.local-call{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;text-underline-offset:4px}
 .local-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);align-items:center;gap:clamp(16px,4vw,72px);padding-block:clamp(32px,4.5vw,72px)}
@@ -61,27 +63,27 @@ export function button(label, attribute) {
   return `<button type="button" class="local-action" ${attribute}>${label}</button>`;
 }
 
-export function renderPage(root, data, kit, {nav, heading, example, rows, primary, sticky, details}) {
+export function renderPage(root, data, kit, {nav, heading, example, rows, primary, sticky, details, art = kit.art}) {
   addStyles("local-pages", css);
   addStyles(kit.skin, kit.css);
   root.innerHTML = `
     <div class="local-kit ${kit.skin}">
       <header class="local-head"><div class="local-wrap local-mast">
-        <div class="local-lockup"><span aria-hidden="true" class="local-mono" data-bind="initials"></span><span data-bind="kind-label"></span></div>
+        <div class="local-lockup"><span aria-hidden="true" class="local-mono" data-bind="initials"></span><span class="local-business"><span data-bind="name"></span><small data-bind="kind-label"></small></span></div>
         <a href="#offer">${nav}</a>
       </div></header>
       <main id="kit-main" tabindex="-1">
         <section class="local-hero"><div class="local-wrap local-hero-grid">
           <div class="local-copy"><p class="local-trade" data-bind="describe"></p><h1 data-bind="name"></h1>
             <p class="local-tag" data-bind="tagline"></p>${primary}</div>
-          <div class="local-art" aria-hidden="true">${kit.art ?? ""}</div>
+          <div class="local-art" aria-hidden="true">${art}</div>
         </div></section>
         <section id="offer" class="local-wrap local-offer" tabindex="-1">
           <div class="local-section-head"><h2>${heading}</h2><p class="local-example">${example}</p></div>${rows}
         </section>
         ${details ?? ""}
         <section class="local-details"><div class="local-wrap local-info">
-          <div>${hours(kit.id, data.kind.id)}</div><div>${findUs}</div>
+          <div>${hours(kit.id, data.kind.id)}</div><div data-if="town">${findUs}</div>
         </div></section>
       </main>
       <footer class="local-foot"><div class="local-wrap"><span data-bind="name"></span><br>Example website by Severn &amp; Tyne</div></footer>
