@@ -22,5 +22,13 @@
     "trade": "Gardening and landscaping",
     "href": "showpieces/mow/",
     "image": "showpieces/mow/cover.jpg"
+  },
+  {
+    "id": "cafe",
+    "title": "The build-up",
+    "line": "Watch maple syrup pool on a blueberry stack, add breakfast to the basket and preview collection.",
+    "trade": "Cafés",
+    "href": "showpieces/cafe/",
+    "image": "showpieces/cafe/cover.jpg"
   }
 ]
