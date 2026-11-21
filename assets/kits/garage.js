@@ -81,7 +81,7 @@ const template = (services, problems, kind) => `
       <span class="gg-plate" aria-hidden="true"><span data-bind="initials"></span></span>
       <span class="gg-brand-name"><span data-bind="name"></span><small data-bind="kind-label"></small></span>
     </a>
-    <nav class="gg-nav" aria-label="Sections"><a href="#gg-fix">What we fix</a><a href="#gg-how">How it works</a><a data-if="town" href="#gg-find">Find us</a></nav>
+    <nav class="gg-nav" aria-label="Sections"><a href="#gg-fix">What we fix</a><a href="#gg-how">How it works</a><a data-if="town" href="#gg-find">${kind === "mobile-mechanic" ? "Visit area" : "Find us"}</a></nav>
     <a class="k-btn k-btn-primary gg-head-call" href="#call" data-call="short">${ICON_PHONE}<span data-call-label>Call us</span></a>
   </header>
 
@@ -94,7 +94,7 @@ const template = (services, problems, kind) => `
           <p class="gg-tagline" data-bind="tagline"></p>
           <div class="gg-actions">
             <a class="k-btn k-btn-ghost" href="#call" data-call>${ICON_PHONE}<span data-call-label>Call us</span></a>
-            <button class="k-btn k-btn-primary" type="button" data-service>Book a service</button>
+            <button class="k-btn k-btn-primary" type="button" data-service>${kind === "mobile-mechanic" ? "Request a visit" : "Book a service"}</button>
           </div>
         </div>
         <div class="gg-drawing">${workshopArt(kind, false, CAR_SVG)}</div>
@@ -133,10 +133,10 @@ const template = (services, problems, kind) => `
       </div>
     </section>
 
-    <section class="gg-section gg-visit" id="gg-find" aria-label="Visit the workshop">
+    <section class="gg-section gg-visit" id="gg-find" aria-label="Location and hours">
       <div class="gg-wrap gg-visit-grid">
         <div class="gg-find" data-if="town">
-          ${findUs}
+          ${kind === "mobile-mechanic" ? '<h2>Visit area <span data-bind="in-town"></span></h2>' : findUs}
           <a class="k-btn k-btn-ghost" href="#call" data-call>${ICON_PHONE}<span data-call-label>Call us</span></a>
         </div>
         <div class="gg-hours">
@@ -159,7 +159,7 @@ const template = (services, problems, kind) => `
 
   <nav class="gg-bar" aria-label="Quick actions">
     <a class="k-btn k-btn-ghost" href="#call" data-call>${ICON_PHONE}<span data-call-label>Call us</span></a>
-    <button class="k-btn k-btn-primary" type="button" data-service>Book a service</button>
+    <button class="k-btn k-btn-primary" type="button" data-service>${kind === "mobile-mechanic" ? "Request a visit" : "Book a service"}</button>
   </nav>
 </div>`;
 

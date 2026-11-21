@@ -102,7 +102,7 @@ export function renderIllustrated(root, data, kit, { nav, art, section, content,
         <section class="offer shop-wrap" id="offer" tabindex="-1">${section}</section>
         ${content ?? ""}
         <section class="hours"><div class="shop-wrap location-layout"><div>${hours(kit.id, data.kind.id)}</div></div></section>
-        <section class="location" data-if="town"><div class="shop-wrap location-layout"><div>${findUs}</div></div></section>
+        <section class="location" data-if="town"><div class="shop-wrap location-layout"><div>${data.kind.id === "mobile-mechanic" ? '<h2>Visit area <span data-bind="in-town"></span></h2>' : findUs}</div></div></section>
       </main>
       <footer class="shop-foot shop-wrap"><span data-bind="name"></span><small>Example website by Severn &amp; Tyne</small></footer>
       <div class="sticky ${barClass}"><div class="shop-wrap sticky-inner">${sticky}</div></div>

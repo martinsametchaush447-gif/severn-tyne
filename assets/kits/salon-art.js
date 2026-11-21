@@ -9,7 +9,21 @@ const compact = `<g transform="rotate(-12 108 66)"><ellipse cx="111" cy="45" rx=
 const comb = `<g transform="rotate(-15 106 65)"><rect x="45" y="40" width="125" height="15" rx="6" fill="#b4566f"/><path d="M49 52v26m6-25v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m6-26v26m8-26v26m9-26v26m9-26v26m9-26v26m9-26v26" stroke-width="3"/></g><path d="M42 96c45-18 74 25 128-15m-123 21c44-15 71 23 125-15" stroke="#95445c"/>`;
 const brow = `<path d="M51 63q41-44 95-12-38-13-90 17Z" fill="#70454b"/><path d="M63 82q31-24 65-5-20 20-49 12m7-16c-4 15 15 21 21 0m-6 8q-4 6-7-1m34-3 11-4m-22 11 11-2m-47 8-6 5"/>`;
 
+const appointmentDrawings = {
+  "dog-groomer": `<path fill="var(--coat)" d="M60 77q-8-21 5-34l10-4 5-14 18 4q13 2 17 16l13 4q3 9-9 13l-11 1-2 17"/><path fill="var(--shade)" d="M78 32q-16 2-17 24c0 14 12 12 18 0l6-19"/><circle cx="105" cy="43" r="2.5" fill="#352b28"/><path d="m121 48 6 2-4 4Z"/><path fill="var(--wash)" d="M39 73h103l-9 24q-2 6-12 6H57q-9-1-12-8Zm-4-6h110v8H35z"/><path d="m55 104-3 7m69-7 4 7M48 63q-3-10 7-12m46 12q-2-10 7-12"/><g transform="rotate(26 153 64)"><rect x="146" y="33" width="17" height="30" rx="7" fill="var(--coat)"/><path d="m150 38 0 14m5-15v14m5-12v11m-7 11v22q3 5 6 0V62"/></g>`,
+  "alterations": `<path fill="var(--wash)" d="M39 69q30-8 56 6l52-31 15 23-60 38q-34-14-56-9Z"/><path d="M49 87q22-4 49 7l53-32m-89 24 1 5m10-4 0 6m12-4-1 6m24-7 4 5m6-13 4 5m8-13 4 5"/><path fill="var(--coat)" d="M70 69 135 24q9-5 4 4Z"/><path d="M134 27c-13-24-46-5-37 8 6 9 20 3 26 11"/>`,
+  "physio": `<path fill="var(--wash)" d="M39 67h104l12 8v9H39z"/><path d="m44 83-6 20h7l9-20m77 0 9 20h7l-6-20m-85 8h74"/><path fill="var(--coat)" d="m111 63 24-22q5-4 10 1l7 7-24 20Z"/><path d="M51 65q-7-12-1-19h18q7 7 2 19Zm2-18q10 6 12 0m-5 6v10M41 70h61"/>`,
+  "gym-pt": `<path fill="var(--coat)" d="m68 62 77-17 3 12-78 17Z"/><g transform="rotate(-13 104 61)" fill="var(--wash)"><rect x="42" y="39" width="11" height="48" rx="4"/><rect x="53" y="30" width="11" height="64" rx="4"/><rect x="66" y="39" width="11" height="48" rx="4"/><rect x="139" y="39" width="11" height="48" rx="4"/><rect x="151" y="30" width="11" height="64" rx="4"/><rect x="162" y="39" width="11" height="48" rx="4"/></g><path d="M61 104q33-3 49-14 21-14 46-3m-85 22q30-3 47-14 15-9 34-4"/>`,
+};
+
 export function salonArt(kind, study, fallback) {
+  if (appointmentDrawings[kind]) {
+    const palette = study ? "--coat:#ebbb86;--shade:#a76745;--wash:#cbd7bb" : "--coat:#e2be97;--shade:#b57f56;--wash:#b3cbc9";
+    return `<svg data-art="${kind}-${study ? "b" : "a"}" viewBox="18 8 168 112" aria-hidden="true" style="${palette}"
+      stroke="#423638" stroke-width="${study ? 2.6 : 1.8}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      ${study ? '<circle cx="103" cy="62" r="49" stroke="none" fill="#f4d9b9"/>' : ""}
+      <g transform="${study ? "rotate(-6 100 60)" : ""}">${appointmentDrawings[kind]}</g></svg>`;
+  }
   const drawing = study ? {tattoo:swallow, hair:comb, beauty:compact}[kind] : {tattoo:rose, nails:polish, beauty:brow}[kind];
   if (!drawing) return fallback;
   return `<svg data-art="${kind}-${study ? "b" : "a"}" viewBox="${kind === "tattoo" && !study ? "62 0 150 122" : "15 0 187 124"}" fill="none" stroke="#432b38" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${drawing}</svg>`;

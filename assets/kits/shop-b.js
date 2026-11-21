@@ -29,6 +29,10 @@ export default {
     .parcel .local-list>li{border-block-end:1px dashed #9c907c}.parcel .local-info{border-inline-start:5px solid var(--accent);padding-inline-start:22px}
     @media(max-width:720px){.parcel .local-hero-grid{display:block;padding:18px 18px 22px}.parcel .local-art{width:116px;height:73px;float:right;position:absolute;bottom:12px;right:7px;border:0;background:none}
      .parcel .local-copy .local-action{max-width:calc(100% - 90px)}.parcel .local-copy h1{font-size:clamp(39px,11vw,60px)}}
+    @media(max-width:720px){
+      [data-kind=clothing] .parcel{--piece-art:min(23vw,96px)}
+      [data-kind=clothing] .parcel .local-art{width:var(--piece-art)}
+      [data-kind=clothing] .parcel .local-copy .local-action{max-width:calc(100% - var(--piece-art))}}
     @media(max-width:359px){.parcel .local-art{width:81px;bottom:7px}.parcel .local-copy .local-action{max-width:calc(100% - 56px)}}
   `,
 };

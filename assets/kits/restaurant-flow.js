@@ -61,11 +61,14 @@ const SHEET_CSS = `
 `;
 
 function createBasket(root, menu) {
+  const reserve = root.dataset.kind === "clothing";
   const itemsById = new Map(menu.map((item) => [item.id, item]));
   const quantities = new Map();
   const count = () => [...quantities.values()].reduce((sum, quantity) => sum + quantity, 0);
   const total = () => [...quantities].reduce((sum, [id, quantity]) => sum + itemsById.get(id).price * quantity, 0);
   const lines = () => [...quantities].filter(([, quantity]) => quantity > 0).map(([id, quantity]) => ({ item: itemsById.get(id), quantity }));
+
+  const quantityNote = () => reserve ? `${count()} in your reserve list.` : `Order total ${money(total())}.`;
 
   function setQuantity(id, quantity) {
     const next = Math.max(0, Math.min(20, quantity));
@@ -80,9 +83,9 @@ function createBasket(root, menu) {
     return h(
       "div",
       { class: "rs-step" },
-      h("button", { type: "button", "aria-label": `Remove one ${item.name}`, html: ICON_MINUS, onclick: () => { setQuantity(id, quantity - 1); onChange?.(); announce(`${item.name}: ${quantities.get(id) ?? 0}. Order total ${money(total())}.`); } }),
-      h("output", { "aria-label": `${quantity} ${item.name} in your order`, text: String(quantity) }),
-      h("button", { type: "button", "aria-label": `Add one more ${item.name}`, html: ICON_PLUS, onclick: () => { setQuantity(id, quantity + 1); onChange?.(); announce(`${item.name}: ${quantities.get(id)}. Order total ${money(total())}.`); } }),
+      h("button", { type: "button", "aria-label": `Remove one ${item.name}`, html: ICON_MINUS, onclick: () => { setQuantity(id, quantity - 1); onChange?.(); announce(`${item.name}: ${quantities.get(id) ?? 0}. ${quantityNote()}`); } }),
+      h("output", { "aria-label": `${quantity} ${item.name} in your ${reserve ? "reserve list" : "order"}`, text: String(quantity) }),
+      h("button", { type: "button", "aria-label": `Add one more ${item.name}`, html: ICON_PLUS, onclick: () => { setQuantity(id, quantity + 1); onChange?.(); announce(`${item.name}: ${quantities.get(id)}. ${quantityNote()}`); } }),
     );
   }
 
@@ -98,10 +101,10 @@ function createBasket(root, menu) {
           {
             type: "button",
             class: "rs-add",
-            "aria-label": `Add ${item.name}, ${money(item.price)}`,
+            "aria-label": reserve ? `Add ${item.name} to reserve list` : `Add ${item.name}, ${money(item.price)}`,
             onclick: () => {
               setQuantity(id, 1);
-              announce(`Added ${item.name}. ${count()} in your order, ${money(total())}.`);
+              announce(`Added ${item.name}. ${quantityNote()}`);
             },
           },
           h("span", { html: ICON_PLUS }),
@@ -126,8 +129,8 @@ function createBasket(root, menu) {
     orderButton.hidden = items === 0;
     root.querySelector(".rs-bar-book").hidden = items > 0;
     orderButton.querySelector(".rs-bar-count").textContent = String(items);
-    orderButton.querySelector(".rs-bar-total").textContent = money(total());
-    orderButton.setAttribute("aria-label", `View order, ${items} ${items === 1 ? "item" : "items"}, ${money(total())}`);
+    orderButton.querySelector(".rs-bar-total").textContent = reserve ? "" : money(total());
+    orderButton.setAttribute("aria-label", reserve ? `View reserve list, ${items} ${items === 1 ? "piece" : "pieces"}` : `View order, ${items} ${items === 1 ? "item" : "items"}, ${money(total())}`);
   }
 
   function clear() {
@@ -139,6 +142,8 @@ function createBasket(root, menu) {
 }
 
 function createOrderFlow(root, basket) {
+  const reserve = root.dataset.kind === "clothing";
+  const title = reserve ? "Your reserve list" : "Your order";
   const isShop = root.dataset.kit === "shop";
   let customer = null;
 
@@ -147,20 +152,20 @@ function createOrderFlow(root, basket) {
       return h(
         "div",
         { class: "rs-empty" },
-        h("p", { text: isShop ? "Your basket is empty. Add something from the counter." : "Your order is empty. Add dishes from the menu." }),
-        h("button", { type: "button", class: "k-btn k-btn-primary", onclick: () => closeSheet() }, isShop ? "Back to the counter" : "Back to the menu"),
+        h("p", { text: reserve ? "Your reserve list is empty." : isShop ? "Your basket is empty. Add something from the counter." : "Your order is empty. Add dishes from the menu." }),
+        h("button", { type: "button", class: "k-btn k-btn-primary", onclick: () => closeSheet() }, reserve ? "Back to the pieces" : isShop ? "Back to the counter" : "Back to the menu"),
       );
     }
-    const redraw = () => updateSheet({ title: "Your order", body: summaryBody(), onBack: null });
+    const redraw = () => updateSheet({ title, body: summaryBody(), onBack: null });
     const list = h(
       "ul",
       { class: "rs-sheet-items" },
       ...basket.lines().map(({ item, quantity }) =>
-        h("li", { class: "rs-sheet-item" }, h("strong", { text: item.name }), h("span", { text: `${quantity} x ${money(item.price)} = ${money(item.price * quantity)}` }), basket.stepper(item.id, { onChange: redraw })),
+        h("li", { class: "rs-sheet-item" }, h("strong", { text: item.name }), h("span", { text: reserve ? `Quantity ${quantity}` : `${quantity} x ${money(item.price)} = ${money(item.price * quantity)}` }), basket.stepper(item.id, { onChange: redraw })),
       ),
     );
     const form = detailsForm({
-      submitLabel: `Place example order, ${money(basket.total())}`,
+      submitLabel: reserve ? "Prepare example reservation" : `Place example order, ${money(basket.total())}`,
       note: "Example only. Nothing is sent.",
       initial: customer ?? {},
       onSubmit: (details) => {
@@ -171,15 +176,20 @@ function createOrderFlow(root, basket) {
     form.addEventListener("input", () => {
       customer = { name: form.elements.name.value, mobile: form.elements.mobile.value };
     });
-    return h("div", {}, list, h("p", { class: "rs-total" }, h("span", { text: "Total" }), h("span", { class: "rs-total-value", text: money(basket.total()) })), h("h3", { class: "rs-subhead", text: "Collection details" }), form);
+    return h("div", {}, list, !reserve && h("p", { class: "rs-total" }, h("span", { text: "Total" }), h("span", { class: "rs-total-value", text: money(basket.total()) })), h("h3", { class: "rs-subhead", text: reserve ? "Try-on details" : "Collection details" }), form);
   }
 
   function receipt() {
     const shop = root.kitData;
     const lines = basket.lines();
-    const total = basket.total();
-    const {ready: collection, day} = nextCollection(root.dataset.kit, shop.kind.id);
-    const clock = collection.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    const total = reserve ? null : basket.total();
+    let collectionLine;
+    if (!reserve) {
+      const {ready, day} = nextCollection(root.dataset.kit, shop.kind.id);
+      const clock = ready.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+      collectionLine = h("p", { class: "rs-collection-time" }, "Collect", day, " at ",
+        h("time", { datetime: ready.toISOString(), text: clock }));
+    }
     const reference = String(1000 + (hashString(`${Date.now()}`) % 9000));
     const body = h(
       "div",
@@ -191,27 +201,27 @@ function createOrderFlow(root, basket) {
           "div",
           { class: "rs-receipt" },
           h("p", { class: "rs-receipt-name", text: shop.name }),
-          h("p", { class: "rs-receipt-meta", text: `Collection order ${reference}, example` }),
-          h("ul", {}, ...lines.map(({ item, quantity }) => h("li", {}, h("span", { text: `${quantity} x ${item.name}` }), h("span", { text: money(item.price * quantity) })))),
-          h("p", { class: "rs-receipt-total" }, h("span", { text: "Total" }), h("span", { class: "rs-receipt-total-value", text: money(total) })),
-          h("p", { class: "rs-collection-time" }, "Collect", day, " at ", h("time", { datetime: collection.toISOString(), text: clock })),
+          h("p", { class: "rs-receipt-meta", text: reserve ? "Example in-store try-on list" : `Collection order ${reference}, example` }),
+          h("ul", {}, ...lines.map(({ item, quantity }) => h("li", {}, h("span", { text: `${quantity} x ${item.name}` }), !reserve && h("span", { text: money(item.price * quantity) })))),
+          !reserve && h("p", { class: "rs-receipt-total" }, h("span", { text: "Total" }), h("span", { class: "rs-receipt-total-value", text: money(total) })),
+          collectionLine,
           h("p", { class: "rs-receipt-who", text: `For ${customer.name}` }),
         ),
       ),
-      h("p", { class: "rs-confirm-note", text: "This is an example order. Nothing was sent." }),
+      h("p", { class: "rs-confirm-note", text: reserve ? "Example only. No pieces have been reserved." : "This is an example order. Nothing was sent." }),
       h("div", { class: "k-sheet-foot rs-receipt-actions" },
-        h("button", { type: "button", class: "k-btn k-btn-ghost rs-print", onclick: () => window.print() }, "Print receipt"),
+        h("button", { type: "button", class: "k-btn k-btn-ghost rs-print", onclick: () => window.print() }, reserve ? "Print reserve list" : "Print receipt"),
         h("button", { type: "button", class: "k-btn k-btn-primary", onclick: () => closeSheet() }, "Done"),
       ),
     );
-    updateSheet({ title: "Order placed", body, onBack: null });
+    updateSheet({ title: reserve ? "Reserve list ready" : "Order placed", body, onBack: null });
     basket.clear();
-    announce(`Order placed, ${money(total)}. Example only, nothing was sent.`);
+    announce(reserve ? "Example reserve list ready." : `Order placed, ${money(total)}. Example only, nothing was sent.`);
   }
 
   return {
     open() {
-      openSheet({ title: "Your order", body: summaryBody(), onBack: null });
+      openSheet({ title, body: summaryBody(), onBack: null });
     },
   };
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "wash",
+    "title": "Watch it come up clean",
+    "line": "Clean the patio, choose the right method and build an example quote request.",
+    "trade": "Exterior cleaning",
+    "href": "showpieces/wash/",
+    "image": "showpieces/wash/cover.jpg"
+  },
+  {
+    "id": "paint",
+    "title": "A room worth coming home to",
+    "line": "Roll on a fresh coat, choose a room finish and explore an example decorating price.",
+    "trade": "Painting and decorating",
+    "href": "showpieces/paint/",
+    "image": "showpieces/paint/cover.jpg"
+  },
+  {
+    "id": "mow",
+    "title": "Get your garden back",
+    "line": "Mow the lawn into stripes, find seasonal jobs and build an example garden quote.",
+    "trade": "Gardening and landscaping",
+    "href": "showpieces/mow/",
+    "image": "showpieces/mow/cover.jpg"
+  }
+]

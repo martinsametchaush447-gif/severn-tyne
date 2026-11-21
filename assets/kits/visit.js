@@ -1,5 +1,6 @@
 const schedules = {
   barber: ["09:00–18:00", "09:00–16:00", "Closed"],
+  clinic: ["09:00–18:00", "09:00–13:00", "Closed"],
   salon: ["09:00–18:00", "09:00–17:00", "Closed"],
   restaurant: ["12:00–22:00", "12:00–22:30", "12:00–20:00"],
   cafe: ["08:00–16:00", "09:00–16:00", "09:00–15:00"],
@@ -10,7 +11,7 @@ const schedules = {
 };
 
 function schedule(trade, kind) {
-  if (kind === "bakery-cafe") return schedules.cafe;
+  if (["bakery-cafe", "coffee-shop", "sandwich-bar"].includes(kind)) return schedules.cafe;
   if (["pizza", "kebab", "curry-house", "chinese"].includes(kind)) return schedules.takeaway;
   return schedules[kind] ?? schedules[trade];
 }

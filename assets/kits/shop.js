@@ -34,15 +34,16 @@ export default {
       .awning .local-art{position:absolute;right:0;bottom:9px;width:clamp(77px,25%,108px)}.awning .local-tag{max-width:70%}.awning .local-copy .local-action{max-width:calc(100% - 69px)}}
   `,
   render(root,data) {
+    const reserve = data.kind.id === "clothing";
     const {menu} = data.kind;
     const rows = menu.map(section => `<h3 class="local-group">${section.title}</h3><ul class="local-list">${section.items.map(item =>
-      `<li class="local-product"><div><h4>${item.name}</h4><small>${item.description}</small></div><span class="local-price">${formatMoney(item.price)}</span>
+      `<li class="local-product"><div><h4>${item.name}</h4><small>${item.description}</small></div>${reserve ? "" : `<span class="local-price">${formatMoney(item.price)}</span>`}
       <div class="rs-qty" data-item="${item.id}"></div></li>`).join("")}</ul>`).join("");
-    const primary = '<a class="local-action rs-bar-book" href="#offer">Order for collection</a>';
-    const basket = '<button class="local-action rs-bar-order" type="button" data-order hidden><span class="rs-bar-count"></span>View order <span class="rs-bar-total"></span></button>';
+    const primary = `<a class="local-action rs-bar-book" href="#offer">${reserve ? "Reserve to try on in store" : "Order for collection"}</a>`;
+    const basket = `<button class="local-action rs-bar-order" type="button" data-order hidden><span class="rs-bar-count"></span>${reserve ? "View reserve list" : "View order"} <span class="rs-bar-total"></span></button>`;
     renderPage(root, data, this, {
       art: counterArt(data.kind.id, this.skin === "parcel", this.art),
-      nav:"The counter",heading:"Today’s counter",example:"Example products and prices",rows,
+      nav:reserve ? "The pieces" : "The counter",heading:data.kind.heading ?? "Today’s counter",example:reserve ? "Example pieces" : "Example products and prices",rows,
       primary:primary.replace(" rs-bar-book",""),sticky:call + primary + basket,
     });
     wireDining(root, menu.flatMap(section => section.items));

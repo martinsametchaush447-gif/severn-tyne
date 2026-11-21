@@ -6,7 +6,7 @@
 import { KINDS, resolveKind } from "./kits/kinds.js";
 import { CONFIG } from "./config.js";
 import { TRADES, resolveTrade, tradeById, resolveStyle } from "./kits/index.js";
-import { cleanText, cleanTown, cleanDigits, LIMITS, SAMPLE_NAME } from "./kit-core.js";
+import { h, cleanText, cleanTown, cleanDigits, LIMITS, SAMPLE_NAME } from "./kit-core.js";
 import {
   previewUrl,
   whatsAppHref,
@@ -312,6 +312,40 @@ function contactButton(label, href, { external = false, primary = false } = {}) 
   return link;
 }
 
+async function applyShowpieces() {
+  const section = document.getElementById("showpieces");
+  const list = section.querySelector("ul");
+  const directory = new URL("showpieces/", document.baseURI);
+  try {
+    const response = await fetch(new URL("manifest.json", directory));
+    if (!response.ok) return;
+    const entries = await response.json();
+    if (!Array.isArray(entries)) return;
+    for (const item of entries) {
+      if (!item || typeof item.id !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.id) ||
+          ![item.title, item.line, item.trade, item.href, item.image].every(value => typeof value === "string" && value.trim())) continue;
+      const folder = new URL(item.id + "/", directory);
+      const resolve = path => new URL(path, /^(?:\.\/)*showpieces\//.test(path) ? document.baseURI : directory);
+      let link, cover;
+      try {
+        link = resolve(item.href);
+        cover = resolve(item.image);
+      } catch {
+        continue;
+      }
+      if (!link.href.startsWith(folder.href) || cover.href !== new URL("cover.jpg", folder).href) continue;
+      const heading = h("h3", {text:item.title});
+      const open = h("a", {href:link.href, "aria-label":"Open the demo for " + item.title}, "Open the demo");
+      list.append(h("li", {}, h("img", {src:cover.href, loading:"lazy", alt:"", width:180, height:336}),
+        heading, h("p", {text:item.line}), open));
+      if (list.children.length === 6) break;
+    }
+  } catch {
+    // The optional gallery can be absent on older static copies.
+  }
+  section.hidden = !list.children.length;
+}
+
 async function applyExtras() {
   const section = document.querySelector(".extras");
   try {
@@ -492,6 +526,7 @@ function start() {
   applyPricing();
   applyCaseStudies();
   applyExtras();
+  applyShowpieces();
   applyContact();
   updateLinks();
 }

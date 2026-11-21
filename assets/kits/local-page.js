@@ -2,7 +2,7 @@ import { hours, findUs } from "./visit.js";
 import { addStyles, applyData, wireCallNotes } from "../kit-core.js";
 
 const css = `
-html:is([data-kit=salon],[data-kit=shop],[data-kit=trades]){
+html:is([data-kit=salon],[data-kit=clinic],[data-kit=shop],[data-kit=trades]){
  --k-bg:#f3f1eb;--k-sheet-bg:#fffefa;--k-surface:#fffefa;--k-ink:#242522;--k-ink-2:#50544d;
  --k-line:#cccac2;--k-line-strong:#898c82;--k-focus:#294d41;--k-font-text:"Segoe UI",Arial,sans-serif;
  --k-font-display:Georgia,serif;--k-btn-radius:5px;--k-chip-radius:5px;--k-input-radius:5px

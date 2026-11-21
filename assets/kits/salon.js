@@ -38,14 +38,14 @@ export default {
   render(root, data) {
     const {services} = data.kind;
     const tattoo = data.kind.id === "tattoo";
-    const primary = button(tattoo ? "Book a consultation" : "Book an appointment", "data-book");
+    const primary = button(data.kind.action ?? (tattoo ? "Book a consultation" : "Book an appointment"), "data-book");
     const rows = services.map(service => `<li><button type="button" class="local-row" data-book="${service.id}" aria-label="Book ${service.name}">
       <span><strong>${service.name}</strong><small>${service.minutes} minutes</small></span>
       ${tattoo ? "" : `<b>${formatMoney(service.price, {alwaysPence:false})}</b>`}
     </button></li>`).join("");
     renderPage(root, data, this, {
       art: salonArt(data.kind.id, this.skin === "colour-study", this.art),
-      nav: tattoo ? "Consultations" : "Services", heading: tattoo ? "Consultations" : "Appointments",
+      nav: tattoo ? "Consultations" : "Services", heading: data.kind.heading ?? (tattoo ? "Consultations" : "Appointments"),
       example: tattoo ? "Example consultations. Priced per piece: ask at your consultation." : "Example services and prices",
       rows: `<ul class="local-list">${rows}</ul>`, primary, sticky: call + primary,
     });

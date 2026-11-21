@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Example Painting & Decorating | Painting and decorating</title>
+<meta name="description" content="Prepare, cut in and roll: an example painting and decorating site with a wall toy and room price guide.">
+<meta name="theme-color" content="#263842">
+<script>
+/* ===== Business data: edit this object for a client (see README.md). URL params n, town, ph, a override it. ===== */
+window.SITE = {
+  "name": "Example Painting & Decorating",
+  "town": "Worcester",
+  "phone": "",
+  "accent": "#f3cf54",
+  "trade": "paint",
+  "services": [
+    {
+      "name": "Walls and ceilings",
+      "line": "Prepare, fill and sand before the finish coats."
+    },
+    {
+      "name": "Doors and woodwork",
+      "line": "Skirting, frames and doors, with the finish agreed first."
+    },
+    {
+      "name": "Wallpaper stripping",
+      "line": "Old paper removed and the wall checked before decorating."
+    }
+  ],
+  "rates": {
+    "minimum": 280,
+    "low": 220,
+    "high": 340,
+    "extras": {
+      "ceilings": {
+        "label": "Ceilings",
+        "low": 60,
+        "high": 100
+      },
+      "woodwork": {
+        "label": "Woodwork",
+        "low": 80,
+        "high": 140
+      },
+      "stripping": {
+        "label": "Wallpaper stripping",
+        "low": 100,
+        "high": 180
+      }
+    }
+  },
+  "areas": [
+    "Worcester",
+    "Malvern",
+    "Droitwich Spa"
+  ]
+};
+document.documentElement.classList.add("js");
+if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("rm");
+</script>
+<style>
+:root {
+  --slate-950: #182024;
+  --slate-900: #222c30;
+  --slate-800: #2c383d;
+  --slate-700: #3b494f;
+  --slate-500: #6b787d;
+  --stone-300: #c8ccc4;
+  --stone-200: #dcdfd8;
+  --stone-100: #eaece6;
+  --stone-50: #f4f5f1;
+  --ink: #1c2427;
+  --ink-2: #47545a;
+  --ink-3: #69767b;
+  --on-dark: #eef0eb;
+  --on-dark-2: #b6bfbf;
+  --accent: #ff7a1a;
+  --on-accent: #1c2427;
+  --line-light: rgba(28, 36, 39, 0.12);
+  --line-dark: rgba(238, 240, 235, 0.14);
+  --font-display: "Avenir Next Condensed", "Bahnschrift", "Roboto Condensed", "sans-serif-condensed", "Arial Narrow", sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --header-h: 56px;
+  --bar-h: 72px;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --gutter: 16px;
+  --radius-control: 10px;
+  --radius-card: 16px;
+}
+@media (min-width: 720px) { :root { --gutter: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: var(--header-h); }
+body {
+  margin: 0; background: var(--stone-50); color: var(--ink);
+  font: 400 16px/1.5 var(--font-body);
+  padding-bottom: calc(var(--bar-h) + env(safe-area-inset-bottom));
+  overflow-x: hidden;
+}
+a, button, input, label, summary { -webkit-tap-highlight-color: transparent; }
+button { font: inherit; color: inherit; }
+img, svg, canvas { display: block; }
+.scene-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+.sr-only { position: absolute !important; width: 1px !important; height: 1px !important; padding: 0 !important; margin: -1px !important; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+h1, h2, h3 { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; letter-spacing: 0; margin: 0; line-height: 1.04; }
+h1 { font-size: clamp(34px, 9vw, 64px); }
+h2 { font-size: clamp(30px, 7.4vw, 48px); }
+h3 { font-size: 22px; line-height: 1.15; }
+p { margin: 0; }
+.lead { font-size: 17px; color: var(--ink-2); max-width: 38em; }
+.wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding: 0 max(var(--gutter), env(safe-area-inset-left)) 0 max(var(--gutter), env(safe-area-inset-right)); }
+.section { padding: 64px 0; }
+.section-head { display: grid; gap: 12px; margin-bottom: 28px; max-width: 40em; }
+.dark { background: var(--slate-900); color: var(--on-dark); }
+.dark .lead { color: var(--on-dark-2); }
+.tnum { font-variant-numeric: tabular-nums; }
+.example-note { font-size: 13px; color: var(--ink-3); }
+.dark .example-note { color: var(--on-dark-2); }
+
+/* ---------- buttons and chips ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px; padding: 0 20px; border-radius: var(--radius-control); border: 0;
+  font-weight: 600; font-size: 16px; text-decoration: none; cursor: pointer;
+  transition: transform 120ms var(--ease-out), background-color 160ms var(--ease-out);
+  user-select: none; -webkit-user-select: none; touch-action: manipulation;
+}
+.btn:active { transform: translateY(2px); }
+.btn-accent { background: var(--accent); color: var(--on-accent); box-shadow: inset 0 1px 0 rgba(255,255,255,0.35); }
+.btn-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
+.btn-quiet { background: var(--stone-200); color: var(--ink); }
+.dark .btn-quiet { background: var(--slate-700); color: var(--on-dark); }
+@media (hover: hover) and (pointer: fine) {
+  .btn-accent:hover { filter: brightness(1.05); }
+  .btn-quiet:hover { background: var(--stone-300); }
+  .dark .btn-quiet:hover { background: var(--slate-500); }
+}
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; border: 0; }
+.chips legend { padding: 0; margin-bottom: 10px; font-size: 14px; font-weight: 600; width: 100%; }
+.chip { position: relative; }
+.chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.chip span {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px;
+  background: var(--stone-200); color: var(--ink); font-size: 15px; font-weight: 500;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+  user-select: none; -webkit-user-select: none;
+}
+.dark .chip span { background: var(--slate-700); color: var(--on-dark); }
+.chip input:checked + span { background: var(--accent); color: var(--on-accent); }
+.chip input:focus-visible + span { outline: 3px solid var(--accent); outline-offset: 2px; }
+.chip input:disabled + span { opacity: 0.45; }
+.chip:active span { transform: scale(0.97); }
+
+/* ---------- header ---------- */
+.top {
+  position: sticky; top: 0; z-index: 30; height: var(--header-h);
+  background: var(--slate-900); color: var(--on-dark);
+  padding-top: env(safe-area-inset-top);
+  box-sizing: content-box;
+}
+.top .wrap { height: var(--header-h); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 10px; min-width: 0; min-height: 44px; text-decoration: none; color: inherit; }
+.brand-text { display: grid; min-width: 0; }
+.brand-sub { font-size: 12px; line-height: 1.2; color: var(--on-dark-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand-mark { flex: none; width: 28px; height: 28px; }
+.brand-name { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 20px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.top-link { flex: none; color: var(--on-dark); font-weight: 600; font-size: 15px; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; padding: 0 4px; border-bottom: 2px solid var(--accent); line-height: 1.1; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; background: #e7ede9; }
+.js:not(.rm) .hero { height: 420svh; }
+.stage { position: relative; }
+.js:not(.rm) .stage { position: sticky; top: var(--header-h); height: calc(100svh - var(--header-h)); overflow: hidden; background: linear-gradient(#c9dbe1 0 60%, #86a35c 60%); }
+.scene { position: absolute; left: 0; right: 0; top: 0; bottom: var(--bar-h); overflow: hidden; contain: strict; }
+.scene .layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.layer-anim { will-change: transform, opacity; }
+html:not(.js) .scene, .rm .scene { display: none; }
+.rig { position: absolute; left: 0; top: 0; width: 120px; height: 120px; overflow: visible; transform-origin: 60px 60px; will-change: transform, opacity; opacity: 0; pointer-events: none; }
+.stage-text { position: relative; z-index: 2; padding: 18px var(--gutter) 0; display: grid; gap: 12px; max-width: 34em; }
+.stage-sub { font-size: 16px; color: var(--ink-2); max-width: 26em; }
+@media (max-width: 959px) { .js:not(.rm) .stage-sub { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); } }
+.pass { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start; }
+.ring { width: 44px; height: 44px; position: relative; }
+.ring svg { width: 44px; height: 44px; transform: rotate(-90deg); }
+.ring-track { stroke: rgba(28,36,39,0.14); }
+.ring-fill { stroke: var(--ink); transition: none; }
+.ring-num { position: absolute; inset: 0; display: grid; place-items: center; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.passes { list-style: none; margin: 0; padding: 0; position: relative; min-height: 64px; }
+.passes li { display: grid; gap: 2px; }
+.passes strong { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 21px; line-height: 1.15; }
+.passes .pass-step { font-size: 13px; color: var(--ink-3); font-weight: 600; }
+.passes p { font-size: 14px; color: var(--ink-2); line-height: 1.4; max-width: 30em; }
+.js:not(.rm) .passes li { position: absolute; left: 0; right: 0; top: 0; opacity: 0; transform: translateY(6px); transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out); }
+.js:not(.rm) .passes li.is-on { opacity: 1; transform: none; }
+html:not(.js) .ring, .rm .ring { display: none; }
+html:not(.js) .pass, .rm .pass { grid-template-columns: 1fr; }
+html:not(.js) .passes, .rm .passes { display: grid; gap: 14px; counter-reset: none; }
+.hint {
+  position: absolute; left: 50%; bottom: calc(var(--bar-h) + 14px); z-index: 3; transform: translateX(-50%);
+  background: rgba(24,32,36,0.82); color: var(--on-dark); font-size: 14px; font-weight: 600; padding: 9px 14px; border-radius: 999px;
+  display: flex; gap: 8px; align-items: center; white-space: nowrap; transition: opacity 240ms var(--ease-out); pointer-events: none;
+}
+.hint svg { width: 14px; height: 14px; }
+html:not(.js) .hint, .rm .hint { display: none; }
+.static-pair { display: none; padding: 20px var(--gutter) 40px; gap: 12px; grid-template-columns: 1fr 1fr; max-width: 760px; }
+html:not(.js) .static-pair, .rm .static-pair { display: grid; }
+.static-pair figure { margin: 0; display: grid; gap: 6px; }
+.static-pair svg { width: 100%; height: auto; border-radius: 12px; }
+.static-pair figcaption { font-size: 14px; font-weight: 600; }
+
+@media (min-width: 960px) {
+  .js:not(.rm) .stage { display: grid; grid-template-columns: minmax(360px, 1fr) 1.15fr; }
+  .stage-text { align-self: center; padding: 0 32px 0 max(32px, calc((100vw - 1120px) / 2)); gap: 18px; }
+  .js:not(.rm) .scene { position: relative; inset: auto; height: calc(100svh - var(--header-h) - var(--bar-h)); }
+  .stage-sub { font-size: 18px; }
+  .passes { min-height: 92px; }
+  .passes p { font-size: 16px; }
+  .hint { left: 75%; }
+}
+
+/* ---------- patio toy ---------- */
+.toy { display: grid; gap: 16px; }
+.toy-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.readout { display: flex; gap: 18px; align-items: baseline; }
+.readout b { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 34px; line-height: 1; font-variant-numeric: tabular-nums; }
+.readout span { font-size: 13px; color: var(--on-dark-2); display: block; }
+.patio {
+  position: relative; border-radius: var(--radius-card); overflow: hidden; background: #8c8676;
+  touch-action: none; user-select: none; -webkit-user-select: none; cursor: none;
+  box-shadow: 0 0 0 1px var(--line-dark);
+}
+.patio canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.patio canvas.dirt { transition: opacity 420ms var(--ease-out); }
+.patio.is-rinsed canvas.dirt { opacity: 0; }
+.cleaner {
+  position: absolute; left: 0; top: 0; pointer-events: none; border-radius: 50%; will-change: transform;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.35);
+}
+.cleaner svg { width: 100%; height: 100%; }
+.cleaner .spinner { transform-origin: 50px 50px; transform-box: view-box; }
+.patio.is-wiping .cleaner .spinner { animation: spin 420ms linear infinite; }
+.rm .patio.is-wiping .cleaner .spinner { animation: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.drag-tip {
+  position: absolute; left: 50%; top: 14px; transform: translateX(-50%); background: rgba(24,32,36,0.8); color: var(--on-dark);
+  font-size: 14px; font-weight: 600; padding: 8px 14px; border-radius: 999px; white-space: nowrap; pointer-events: none;
+  transition: opacity 200ms var(--ease-out);
+}
+.patio.has-started .drag-tip { opacity: 0; }
+.method-line { min-height: 66px; font-size: 15px; color: var(--on-dark-2); max-width: 36em; }
+.method-line b { color: var(--on-dark); }
+.toy-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.done-line { font-weight: 600; min-height: 24px; }
+.noscript-box { padding: 16px; border-radius: 12px; background: var(--slate-800); }
+.method-list { display: none; }
+html:not(.js) .method-list { display: grid; gap: 10px; }
+html:not(.js) .toy-live { display: none !important; }
+@media (min-width: 960px) {
+  .toy { grid-template-columns: 1.5fr 1fr; align-items: start; column-gap: 40px; }
+  .toy > * { grid-column: 2; }
+  .toy .patio-col { grid-column: 1; grid-row: 1 / span 6; }
+}
+
+/* ---------- before / after ---------- */
+.compare { position: relative; border-radius: var(--radius-card); overflow: hidden; aspect-ratio: 44 / 50; max-height: 78svh; margin: 0 auto; width: 100%; max-width: 640px; background: #e7ede9; user-select: none; -webkit-user-select: none; }
+.compare svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.compare .after { clip-path: inset(0 0 0 50%); }
+.compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 0; pointer-events: none; }
+.compare-handle::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1.5px; width: 3px; background: var(--stone-50); box-shadow: 0 0 0 1px rgba(0,0,0,0.12); }
+.compare-knob { position: absolute; top: 50%; left: -24px; width: 48px; height: 48px; margin-top: -24px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.25); }
+.compare-knob svg { position: static; width: 26px; height: 26px; }
+.compare-tag { position: absolute; top: 12px; padding: 6px 10px; border-radius: 8px; background: rgba(24,32,36,0.8); color: var(--on-dark); font-size: 13px; font-weight: 600; pointer-events: none; }
+.compare-tag.before { left: 12px; }
+.compare-tag.after-tag { right: 12px; }
+.compare input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; touch-action: pan-y; }
+.compare:has(input:focus-visible) .compare-knob { outline: 3px solid var(--ink); outline-offset: 3px; }
+
+/* ---------- gauge ---------- */
+.gauge-wrap { display: grid; gap: 24px; }
+.gauge { position: relative; width: 100%; max-width: 420px; margin: 0 auto; aspect-ratio: 320 / 206; }
+.gauge svg { width: 100%; height: 100%; }
+.gauge .band { fill: none; stroke-width: 24; transition: stroke 200ms var(--ease-out); }
+.gauge .band-label { font: 600 12px var(--font-body); fill: var(--on-dark-2); }
+.gauge .band-label.is-on { fill: var(--on-dark); }
+.needle { position: absolute; left: 50%; bottom: 17.48%; width: 6px; height: 55%; margin-left: -3px; transform-origin: 50% 100%; transform: rotate(-90deg); transition: transform 700ms cubic-bezier(0.3, 1.35, 0.55, 1); }
+.rm .needle { transition: none; }
+.needle::before { content: ""; position: absolute; inset: 0; background: var(--on-dark); border-radius: 3px 3px 0 0; clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%); }
+.needle-hub { position: absolute; left: 50%; bottom: 17.48%; width: 22px; height: 22px; margin: 0 0 -11px -11px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px var(--slate-900); }
+.gauge-out { display: grid; gap: 6px; min-height: 132px; }
+.gauge-method { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 30px; line-height: 1.05; }
+.gauge-kit { font-size: 14px; color: var(--on-dark-2); font-weight: 600; }
+.gauge-why { font-size: 16px; color: var(--on-dark); max-width: 32em; }
+.surface-list { display: none; }
+html:not(.js) .surface-list { display: grid; gap: 12px; }
+html:not(.js) .gauge-live, html:not(.js) .price-inputs, html:not(.js) .result { display: none !important; }
+@media (min-width: 960px) { .gauge-wrap { grid-template-columns: 1fr 1fr; align-items: center; column-gap: 48px; } }
+
+/* ---------- price ---------- */
+.price { display: grid; gap: 28px; }
+.field { display: grid; gap: 10px; }
+.field-label { font-size: 14px; font-weight: 600; }
+.area-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.area-val { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 30px; font-variant-numeric: tabular-nums; }
+.area-like { font-size: 14px; color: var(--ink-3); }
+input[type=range].slider { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; margin: 0; touch-action: pan-y; }
+input[type=range].slider::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(to right, var(--ink) var(--fill, 20%), var(--stone-300) var(--fill, 20%)); }
+input[type=range].slider::-moz-range-track { height: 6px; border-radius: 3px; background: var(--stone-300); }
+input[type=range].slider::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--ink); }
+input[type=range].slider::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; border-radius: 50%; background: var(--accent); margin-top: -12px; box-shadow: 0 0 0 4px var(--stone-50), 0 2px 6px rgba(0,0,0,0.25); }
+input[type=range].slider::-moz-range-thumb { width: 30px; height: 30px; border: 0; border-radius: 50%; background: var(--accent); }
+.result {
+  position: sticky; bottom: calc(var(--bar-h) + env(safe-area-inset-bottom) + 12px); z-index: 4;
+  background: var(--slate-900); color: var(--on-dark); border-radius: var(--radius-card); padding: 18px 18px 16px;
+  display: grid; gap: 10px; box-shadow: 0 10px 30px rgba(24,32,36,0.22);
+}
+.result-range { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 40px; line-height: 1; font-variant-numeric: tabular-nums; }
+.result-notes { display: grid; gap: 2px; font-size: 13px; color: var(--on-dark-2); }
+.result-notes b { color: var(--on-dark); font-weight: 600; }
+.result .btn { width: 100%; }
+@media (min-width: 960px) {
+  .price { grid-template-columns: 1.2fr 1fr; column-gap: 48px; align-items: start; }
+  .price-inputs { display: grid; gap: 28px; }
+  .result { position: sticky; top: calc(var(--header-h) + 24px); bottom: auto; }
+}
+
+/* ---------- proof ---------- */
+.gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.frame { margin: 0; display: grid; gap: 8px; }
+.frame-box { position: relative; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: var(--stone-200); }
+.frame-box svg { width: 100%; height: 100%; }
+.frame-empty { display: grid; place-items: center; color: var(--ink-3); font-size: 14px; font-weight: 600; text-align: center; padding: 12px;
+  background-image: repeating-linear-gradient(90deg, transparent 0 46px, rgba(28,36,39,0.07) 46px 48px), repeating-linear-gradient(0deg, transparent 0 30px, rgba(28,36,39,0.07) 30px 32px); }
+.frame figcaption { font-size: 14px; color: var(--ink-2); }
+.frame.wide { grid-column: span 2; }
+.split-mini { display: grid; grid-template-columns: 1fr 1fr; height: 100%; gap: 2px; background: var(--stone-50); }
+.split-mini svg { width: 100%; height: 100%; }
+.details { display: grid; gap: 40px; margin-top: 56px; }
+.list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-light); }
+.list li { padding: 14px 0; border-bottom: 1px solid var(--line-light); display: grid; gap: 2px; }
+.list b { font-family: var(--font-display); font-stretch: condensed; font-weight: 600; font-size: 21px; }
+.list span { color: var(--ink-2); font-size: 15px; }
+.areas { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.areas li { padding: 10px 14px; border-radius: 999px; background: var(--stone-200); font-weight: 500; font-size: 15px; }
+@media (min-width: 720px) { .gallery { grid-template-columns: repeat(4, 1fr); } .frame.wide { grid-column: span 2; } }
+@media (min-width: 960px) { .details { grid-template-columns: 1.4fr 1fr; column-gap: 64px; } }
+
+/* ---------- footer ---------- */
+.foot { background: var(--slate-950); color: var(--on-dark-2); padding: 32px 0 40px; font-size: 14px; }
+.foot p + p { margin-top: 4px; }
+.foot b { color: var(--on-dark); font-weight: 600; }
+
+/* ---------- call bar ---------- */
+.callbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+  background: var(--slate-900); color: var(--on-dark);
+  padding: 12px max(var(--gutter), env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(var(--gutter), env(safe-area-inset-left));
+  display: flex; gap: 10px; box-shadow: 0 -1px 0 var(--line-dark);
+}
+.callbar .btn { flex: 1; min-height: 48px; }
+@media (min-width: 960px) { .callbar { justify-content: flex-end; } .callbar .btn { flex: none; min-width: 200px; } }
+
+/* ---------- quote sheet ---------- */
+dialog.sheet {
+  border: 0; padding: 0; margin: auto auto 0; width: 100%; max-width: 560px; max-height: 92svh;
+  border-radius: 20px 20px 0 0; background: var(--stone-50); color: var(--ink);
+  overscroll-behavior: contain;
+}
+dialog.sheet[open] { animation: sheet-in 260ms var(--ease-out); }
+dialog.sheet::backdrop { background: rgba(24,32,36,0.55); }
+.rm dialog.sheet[open] { animation: none; }
+@keyframes sheet-in { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (min-width: 720px) { dialog.sheet { margin: auto; border-radius: 20px; } }
+.sheet-inner { padding: 8px 20px calc(24px + env(safe-area-inset-bottom)); display: grid; gap: 18px; }
+.sheet-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; }
+.icon-btn { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--stone-200); display: grid; place-items: center; cursor: pointer; }
+.icon-btn svg { width: 20px; height: 20px; }
+.icon-btn[hidden] { display: grid; visibility: hidden; }
+.sheet-step-label { font-size: 14px; font-weight: 600; color: var(--ink-3); }
+.step[hidden] { display: none; }
+.step { display: grid; gap: 16px; }
+.summary { margin: 0; padding: 14px 16px; border-radius: 12px; background: var(--stone-100); display: grid; gap: 8px; font-size: 15px; }
+.summary div { display: flex; justify-content: space-between; gap: 12px; }
+.summary dt { color: var(--ink-3); }
+.summary dd { margin: 0; text-align: right; font-weight: 600; }
+.input { display: grid; gap: 6px; }
+.input span { font-size: 14px; font-weight: 600; }
+.input small { color: var(--ink-3); font-size: 13px; }
+.input input { font: inherit; font-size: 17px; min-height: 50px; padding: 0 14px; border-radius: var(--radius-control); border: 1.5px solid var(--stone-300); background: #fff; color: var(--ink); }
+.input input:focus { outline: none; border-color: var(--ink); }
+.input .err { color: #a2381b; font-size: 13px; font-weight: 600; min-height: 18px; }
+.bubble-wrap { background: #dfe6dc; border-radius: 14px; padding: 16px; }
+.bubble { background: #fff; border-radius: 12px 12px 4px 12px; padding: 12px 14px; font-size: 15px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; box-shadow: 0 1px 1px rgba(0,0,0,0.08); }
+.bubble-to { font-size: 13px; color: var(--ink-3); margin-bottom: 8px; font-weight: 600; }
+.stamp { display: inline-flex; align-self: start; padding: 6px 10px; border-radius: 8px; background: var(--slate-900); color: var(--on-dark); font-size: 13px; font-weight: 600; }
+
+html {scroll-padding-bottom:100px}
+:focus {scroll-margin-block:80px 100px}
+h1,h2,h3 {text-wrap:balance;font-stretch:normal}
+h2 {font-size:clamp(30px,7.8vw,46px);line-height:1.1}
+.skip {position:fixed;top:-100px;left:16px;z-index:99}.skip:focus{top:8px}
+.chip span {border-radius:8px}.chips legend{font-size:16px}
+.brand-name{font-size:17px;font-stretch:normal}.brand-sub{font-size:12px}
+.top-link{font-size:14px}.brand-mark{width:24px;height:24px}
+.js:not(.rm) .hero{height:360svh}
+.js:not(.rm) .stage{display:block;background:var(--stone-100)}
+.js:not(.rm) .scene{position:absolute;inset:0 0 var(--bar-h);height:auto}
+.scene .layer{width:100%;height:100%}
+.stage-text{padding:24px var(--gutter);position:relative;z-index:2;max-width:580px;gap:12px}
+h1{font-size:clamp(38px,10vw,70px);line-height:1.04;max-width:12ch}
+.js:not(.rm) .stage-sub{position:absolute;width:1px;height:1px;clip:rect(0 0 0 0);overflow:hidden}
+.passes{min-height:60px}.passes strong{font-size:19px}
+.passes p{position:absolute;width:1px;height:1px;clip:rect(0 0 0 0);overflow:hidden}
+.scene-label{position:absolute;left:16px;bottom:calc(var(--bar-h) + 12px);font-size:11px;background:#ffffffda;color:#24352c;padding:4px 8px;border-radius:4px;z-index:3}
+.hint{left:auto;right:16px;transform:none;bottom:calc(var(--bar-h) + 12px);font-size:11px;padding:6px 9px}
+.static-pair{max-width:900px}.static-pair svg{aspect-ratio:1;object-fit:cover}
+.toy{gap:20px}.toy-bar{margin-bottom:12px}.toy .picker{display:grid;gap:20px}
+.work-surface{position:relative;aspect-ratio:1.05;overflow:hidden;border-radius:8px;touch-action:none;user-select:none;-webkit-user-select:none;background:#788d60;cursor:none}
+.work-surface canvas{position:absolute;inset:0;width:100%;height:100%}
+.work-head{position:absolute;left:0;top:0;width:64px;height:80px;pointer-events:none;transform-origin:50% 60%;filter:drop-shadow(2px 4px 3px #0003)}
+.work-head svg{width:100%;height:100%}.work-surface.has-started .drag-tip{opacity:0}
+.puffs{position:absolute;left:0;top:0;pointer-events:none}.puffs i{position:absolute;width:5px;height:3px;background:#bad68c;border-radius:50%;opacity:0}
+.is-working .puffs i{animation:puff 450ms linear infinite}
+@keyframes puff{from{transform:translate(0,0) rotate(0);opacity:.9}to{transform:translate(var(--dx),var(--dy)) rotate(120deg);opacity:0}}
+.shades i{width:18px;height:18px;border-radius:50%;margin-right:8px;border:1px solid #26384266;flex:none}
+.finish-band{display:grid;grid-template-columns:repeat(5,1fr);position:relative;padding-bottom:24px;border-bottom:2px solid var(--on-dark-2);gap:4px}
+.finish-band span{font-size:11px;text-align:center;padding:20px 2px;background:#ffffff0c;min-height:70px;display:grid;place-items:center}
+.finish-marker{position:absolute;bottom:-8px;left:0;width:20%;height:15px;display:grid;place-items:center;transition:transform 450ms cubic-bezier(.2,1.2,.5,1)}
+.finish-marker:after{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent);border:3px solid var(--on-dark)}
+.choice-method{font-family:var(--font-display);font-size:32px;line-height:1.1;margin:24px 0 12px}
+.choice-output{min-height:180px;font-size:17px}.choice-output ul{padding-left:20px;display:grid;gap:16px;margin:0}.choice-live{display:none}
+.js .choice-live{display:block}.choice-list{display:grid;gap:16px}.choice-list dt{font-weight:600}.choice-list dd{margin-left:0}.js .choice-list{display:none}
+html:not(.js) [data-choice-chips]{display:none}.advice-note{margin-top:16px}
+.month-drawing svg{width:100%;max-height:110px}
+.price-inputs{display:grid;gap:28px}.result{position:relative;bottom:auto;box-shadow:none}.result .btn{background:var(--stone-100);color:var(--ink)}
+.details{margin-top:0}.details h2{font-size:30px;margin-bottom:20px}
+.compare{aspect-ratio:1;max-width:700px}.compare svg{width:100%;height:100%}
+.top,.callbar{background:var(--slate-900)}.callbar .btn{padding:0 12px}
+@media(min-width:960px){.js:not(.rm) .scene{left:40%}.stage-text{padding:40px 24px 0 max(32px,calc((100vw - 1120px)/2));max-width:40%}.scene .layer{object-position:center}.toy{grid-template-columns:1.3fr 1fr;gap:24px 48px}.toy .patio-col{grid-row:1/span 4}.advice-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px 64px}.advice-note{grid-column:1/-1}.price{align-items:start}.result{position:sticky;top:80px}.scene-label{left:max(32px,calc((100vw - 1120px)/2))}.hint{right:32px}.passes{margin-top:4px}.passes strong{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.finish-marker{transition:none}.is-working .puffs i{animation:none}.js.rm .passes p{position:static;width:auto;height:auto;clip:auto}.js.rm .stage-text{max-width:700px}.js.rm .scene-label{display:none}}
+
+:root{--slate-950:#1b2c35;--slate-900:#263842;--slate-800:#304650;--slate-700:#405761;--on-dark:#f7f3e9;--on-dark-2:#c5d0d2;--stone-50:#f7f3ee;--stone-100:#ede8de;--stone-200:#e4dfd4;--stone-300:#c6c5ba;--ink:#263842;--ink-2:#4c5c62;--ink-3:#5c676a;--accent:#f3cf54;--on-accent:#263842;--font-display:"Trebuchet MS","Verdana",sans-serif;--font-body:"Segoe UI",Arial,sans-serif;--radius-card:8px;--radius-control:6px}
+h1,h2,h3{font-weight:600;letter-spacing:-.025em}h1{max-width:12ch}
+.stage-text{background:linear-gradient(#faf6edf2,#faf6eddd 72%,#faf6ed00)}
+.brand-mark rect{rx:2px}.dark .chip span{background:#405761}
+.section#same{background:#ede8de}.shades .chip span{background:#405761}
+.hero .pass{grid-template-columns:1fr}.scene-label{background:#f3cf54;color:#263842}
+@media(max-width:959px){h1{max-width:none;font-size:36px}}
+@media(max-width:399px){.brand-name{font-size:15px}.brand-mark{display:none}.stage-text{padding-top:16px}.passes{min-height:52px}}
+.toy-in-view .callbar .btn-accent{background:var(--slate-700);color:var(--on-dark);box-shadow:none}</style>
+</head>
+<body>
+<a class="skip btn btn-accent" href="#try">Skip the scroll scene</a>
+<svg class="scene-defs" aria-hidden="true"><defs><linearGradient id="room-wall-light"><stop stop-color="#a8bbc3"/><stop offset="1" stop-color="#809ba9"/></linearGradient><g id="job-base"><rect width="700" height="700" fill="#e9e3d6"/>
+<path d="M0 0H700L600 180H95Z" fill="#faf6ed"/><path d="M0 0L95 180V495L0 700Z" fill="#c8c8be"/>
+<path d="M600 180L700 0V700L600 495Z" fill="#b1b7b0"/>
+<rect x="95" y="180" width="505" height="315" fill="#d7d4c7"/><path d="M375 310l25 9m-15-3 19-7M189 386l32 9m-16-6 22-7M480 424l19-8M330 232l5 24-9 22" stroke="#7d847d" stroke-width="3" opacity=".45"/>
+<path d="M95 495H600L700 700H0Z" fill="#d0b995"/><path d="M-72.5 495L-300 700" stroke="#a68d6c" stroke-width="2"/><path d="M-27.0 495L-230 700" stroke="#a68d6c" stroke-width="2"/><path d="M18.5 495L-160 700" stroke="#a68d6c" stroke-width="2"/><path d="M64.0 495L-90 700" stroke="#a68d6c" stroke-width="2"/><path d="M109.5 495L-20 700" stroke="#a68d6c" stroke-width="2"/><path d="M155.0 495L50 700" stroke="#a68d6c" stroke-width="2"/><path d="M200.5 495L120 700" stroke="#a68d6c" stroke-width="2"/><path d="M246.0 495L190 700" stroke="#a68d6c" stroke-width="2"/><path d="M291.5 495L260 700" stroke="#a68d6c" stroke-width="2"/><path d="M337.0 495L330 700" stroke="#a68d6c" stroke-width="2"/><path d="M382.5 495L400 700" stroke="#a68d6c" stroke-width="2"/><path d="M428.0 495L470 700" stroke="#a68d6c" stroke-width="2"/><path d="M473.5 495L540 700" stroke="#a68d6c" stroke-width="2"/><path d="M519.0 495L610 700" stroke="#a68d6c" stroke-width="2"/><path d="M564.5 495L680 700" stroke="#a68d6c" stroke-width="2"/><path d="M610.0 495L750 700" stroke="#a68d6c" stroke-width="2"/><path d="M655.5 495L820 700" stroke="#a68d6c" stroke-width="2"/><path d="M701.0 495L890 700" stroke="#a68d6c" stroke-width="2"/><path d="M746.5 495L960 700" stroke="#a68d6c" stroke-width="2"/><path d="M792.0 495L1030 700" stroke="#a68d6c" stroke-width="2"/><path d="M0 520H700" stroke="#c6b397" stroke-width="1"/><path d="M0 553H700" stroke="#c6b397" stroke-width="1"/><path d="M0 595H700" stroke="#c6b397" stroke-width="1"/><path d="M0 646H700" stroke="#c6b397" stroke-width="1"/>
+<path d="M95 180H600M95 495H600" stroke="#fffdf4" stroke-width="12"/>
+<path d="M95 488H600" stroke="#6d7774" stroke-width="2" opacity=".4"/></g><g id="job-prep"><g fill="#eee9df"><path d="M321 225l30-6 8 47-24 22-18-17Z"/><path d="M179 374l57 2-2 31-62-3Z"/><path d="M367 297l46 1 7 30-53 1Z"/><path d="M470 412l40-3 3 25-42 7Z"/></g></g><g id="job-cut"><path d="M98 193H596V482H98ZM119 210H289V431H119Z" fill="none" stroke="#91a8b3" stroke-width="18"/></g><g id="job-finish"><rect x="95" y="186" width="505" height="302" fill="url(#room-wall-light)"/></g><g id="job-details"><path d="M95 495L310 495 470 700H170Z" fill="#f9e6ba" opacity=".3"/>
+<rect x="124" y="213" width="161" height="211" fill="#adb0a4"/><rect x="130" y="219" width="149" height="199" fill="#fbf9ef"/>
+<rect x="139" y="228" width="131" height="180" fill="#a9c9d0"/><path d="M139 336L244 228H270V269L139 401Z" fill="#f5fcf5" opacity=".6"/>
+<path d="M204 228V408M139 318H270" stroke="#fffdf3" stroke-width="7"/>
+<path d="M121 421H291V429H121Z" fill="#f5f2e7"/>
+<rect x="128" y="449" width="152" height="38" rx="2" fill="#f7f3e9"/>
+<path d="M140 454V481M152 454V481M164 454V481M176 454V481M188 454V481M200 454V481M212 454V481M224 454V481M236 454V481M248 454V481M260 454V481" stroke="#d7d7c8" stroke-width="3"/>
+<path d="M383 568L535 550 600 580 440 604Z" fill="#6c6252" opacity=".15"/>
+<path d="M402 487L393 577M511 487L526 566" stroke="#70593e" stroke-width="8"/>
+<rect x="384" y="470" width="145" height="25" rx="5" fill="#bd9e6d"/><path d="M393 475H519" stroke="#ddc49b" stroke-width="3"/>
+<path d="M447 426H475L471 468H451Z" fill="#e3d7c0"/><path d="M461 431V388M461 411q-37-1-35-24q29-4 35 24M461 400q1-25 28-23q1 25-28 23" stroke="#4f6e58" stroke-width="4" fill="#71886b"/>
+<rect x="331" y="352" width="13" height="21" rx="2" fill="#f7f5eb"/>
+<path d="M95 188H600" stroke="#fffdf4" stroke-width="5"/>
+<path d="M95 180H600L592 195H103Z" fill="#fcf7e9"/><path d="M102 197H593" stroke="#647b7b" stroke-width="2" opacity=".25"/>
+<path d="M95 480H600V495H95Z" fill="#eeeade"/><path d="M95 480H600" stroke="#fffdf3" stroke-width="3"/>
+<path d="M290 427L325 443V488H290Z" fill="#2c4143" opacity=".08"/>
+<rect x="366" y="238" width="113" height="101" rx="1" fill="#3a504b" opacity=".12"/>
+<rect x="360" y="232" width="113" height="101" fill="#b6996e"/><rect x="366" y="238" width="101" height="89" fill="#f0e9d5"/>
+<path d="M375 309V282q23-27 43-7q17-26 40-19v53Z" fill="#8b9f8d"/><path d="M375 309q39-25 83-12v20H375Z" fill="#526f69"/><circle cx="397" cy="258" r="10" fill="#d4bd83"/>
+<path d="M543 245H586V488H543Z" fill="#9eaa9f"/><path d="M548 250H582V488H548Z" fill="#e7e6d9"/><path d="M553 260H577V348H553ZM553 360H577V476H553Z" fill="none" stroke="#c8cbbb" stroke-width="2"/>
+<circle cx="555" cy="353" r="2" fill="#7f806c"/>
+<path d="M434 0V142" stroke="#a5a99e" stroke-width="2"/><path d="M411 141H457L468 174H400Z" fill="#b6b6a5"/><ellipse cx="434" cy="174" rx="34" ry="7" fill="#ece9d6"/>
+<path d="M390 492l104 0 72 78-156 25Z" fill="#4c5147" opacity=".07"/></g>
+<g id="job-before"><use href="#job-base"/><use href="#job-details"/></g><g id="job-after"><use href="#job-base"/><use href="#job-finish"/><use href="#job-details"/></g></defs></svg>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#hero" aria-label="Back to the top">
+      <svg class="brand-mark" viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="7" fill="var(--accent)"/><path d="M7 21V7M12.5 21V7M18 21V12M23.5 21V16" stroke="var(--on-accent)" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="brand-text"><span class="brand-name" data-bind="name">Example Painting & Decorating</span><span class="brand-sub">Painting and decorating, <span data-bind="town">Worcester</span></span></span>
+    </a>
+    <a class="top-link" href="#price">Rough price</a>
+  </div>
+</header>
+
+<main><section class="hero" id="hero" aria-labelledby="hero-title"><div class="stage">
+<div class="scene"><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="layer" data-scene="base" aria-hidden="true"><use href="#job-base"/></svg><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="layer" data-scene="prep" aria-hidden="true"><use href="#job-prep"/></svg><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="layer" data-scene="cut" aria-hidden="true"><use href="#job-cut"/></svg><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="layer" data-scene="finish" aria-hidden="true"><use href="#job-finish"/></svg><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="layer" data-scene="details" aria-hidden="true"><use href="#job-details"/></svg></div><div class="stage-text"><h1 id="hero-title">A room worth coming home to.</h1><p class="stage-sub">Painting and decorating in <span data-bind="town">Worcester</span></p><div class="pass"><ol class="passes" aria-live="polite"><li class="is-on"><span class="pass-step">Pass 1 of 3</span><strong>Prep and fill</strong><p>Small repairs, sanded smooth before the colour.</p></li><li class=""><span class="pass-step">Pass 2 of 3</span><strong>Cut in the edges</strong><p>A steady brush around ceilings, frames and skirting.</p></li><li class=""><span class="pass-step">Pass 3 of 3</span><strong>Roll the walls</strong><p>Overlapping passes for an even finish.</p></li></ol></div></div>
+<p class="scene-label">Example illustration</p><div class="hint" aria-hidden="true">Scroll to see the room finished</div>
+<div class="static-pair"><figure><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Before, example illustration"><use href="#job-before"/></svg><figcaption>Before</figcaption></figure><figure><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="After, example illustration"><use href="#job-after"/></svg><figcaption>After</figcaption></figure></div></div></section><section class="section dark" id="try" aria-labelledby="toy-title"><div class="wrap toy">
+<div class="section-head"><h2 id="toy-title">Paint this wall yourself</h2><p class="lead">Drag the roller over the scuffs. Lift it, then roll a second coat to even out the lap marks.</p></div>
+<div class="patio-col toy-live"><div class="toy-bar"><div class="readout"><div><b data-toy="pct">0%</b><span>covered</span></div></div><p class="example-note">Example wall</p></div>
+<div class="work-surface" data-toy="stage" role="img" aria-label="Scuffed wall, drag to paint or use Finish it for me"><canvas data-canvas="base"></canvas><canvas data-canvas="work"></canvas><div class="work-head"><svg viewBox="0 0 80 100" aria-hidden="true"><path d="M43 42H67V58H40V76" fill="none" stroke="#d2d4ce" stroke-width="6"/><rect x="9" y="14" width="58" height="30" rx="7" fill="#f0dfb3"/><path d="M14 21H62M14 35H62" stroke="#fff8e3" opacity=".7" stroke-width="3"/><rect x="33" y="71" width="14" height="27" rx="4" fill="#314957"/></svg></div><div class="puffs" aria-hidden="true"></div><div class="drag-tip">Drag to roll</div></div></div>
+<div class="toy-live picker"><fieldset class="chips shades"><legend>Six example shades</legend><label class="chip"><input type="radio" name="shade" value="#e8e5db" checked><span><i style="background:#e8e5db"></i>Chalk</span></label><label class="chip"><input type="radio" name="shade" value="#b9cdd1" ><span><i style="background:#b9cdd1"></i>Mist</span></label><label class="chip"><input type="radio" name="shade" value="#bd9986" ><span><i style="background:#bd9986"></i>Clay</span></label><label class="chip"><input type="radio" name="shade" value="#8b9c83" ><span><i style="background:#8b9c83"></i>Leaf</span></label><label class="chip"><input type="radio" name="shade" value="#7a96ad" ><span><i style="background:#7a96ad"></i>Denim</span></label><label class="chip"><input type="radio" name="shade" value="#d4c3a3" ><span><i style="background:#d4c3a3"></i>Oat</span></label></fieldset><div class="toy-actions"><button class="btn btn-accent" data-toy="auto" type="button">Finish it for me</button><button class="btn btn-quiet" data-toy="reset" type="button">Reset</button></div><p data-toy="done" class="done-line" aria-live="polite"></p></div>
+<noscript><p class="noscript-box">The roller needs JavaScript. Preparation and overlapping coats make the finish even.</p></noscript></div></section><section class="section" id="same"><div class="wrap"><div class="section-head"><h2>Same space. A fresh start.</h2><p class="lead">Drag the line to compare the example.</p></div><div class="compare"><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#job-before"/></svg><svg viewBox="0 0 700 700" preserveAspectRatio="xMidYMid slice" class="after" aria-hidden="true"><use href="#job-after"/></svg><span class="compare-tag before">Before</span><span class="compare-tag after-tag">After</span><div class="compare-handle"><div class="compare-knob" aria-hidden="true"><svg viewBox="0 0 26 26"><path d="M9 7l-6 6 6 6m8-12 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></div></div><input type="range" min="0" max="100" value="50" aria-label="Compare before and after" data-compare></div><p class="example-note" style="margin-top:12px">Example illustration. Your own job photos replace it.</p></div></section><section class="section dark" id="advice"><div class="wrap advice-layout"><div class="section-head"><h2>Right finish for the room</h2><p class="lead">Pick the room. The sheen is only part of the choice: the paint must suit the surface and the wear.</p><fieldset class="chips" data-choice-chips><legend>Room or surface</legend></fieldset></div><div class="choice-live"><div class="finish-band" aria-hidden="true"><span>Matt</span><span>Durable matt</span><span>Eggshell</span><span>Satin</span><span>Gloss</span><i class="finish-marker"></i></div><div class="choice-output" aria-live="polite"><p class="choice-method" data-choice-method></p><div data-choice-reason></div></div></div><dl class="choice-list"><div data-choice="Kitchen" data-value="1" data-method="Durable matt"><dt>Kitchen</dt><dd>Choose a washable formula suitable for cooking splashes.</dd></div><div data-choice="Bathroom" data-value="2" data-method="Eggshell"><dt>Bathroom</dt><dd>A suitable moisture-resistant formula helps in a steamy room; ventilation still matters.</dd></div><div data-choice="Hallway" data-value="1" data-method="Durable matt"><dt>Hallway</dt><dd>A washable finish makes everyday scuffs easier to deal with.</dd></div><div data-choice="Bedroom" data-value="0" data-method="Matt"><dt>Bedroom</dt><dd>A low-sheen finish suits walls with less wear.</dd></div><div data-choice="Woodwork" data-value="3" data-method="Satin"><dt>Woodwork</dt><dd>A mid-sheen finish suits doors and skirting; gloss is a shinier alternative.</dd></div><div data-choice="Ceiling" data-value="0" data-method="Matt"><dt>Ceiling</dt><dd>Low sheen helps soften the appearance of small surface imperfections.</dd></div></dl><p class="example-note advice-note">A starting point: confirm the product specification with your decorator.</p></div></section><section class="section" id="price"><div class="wrap"><div class="section-head"><h2>A guide for your decorating job</h2><p class="lead">Room count and the extra preparation change the guide.</p></div><div class="price" data-price><div class="price-inputs"><fieldset class="chips"><legend>How many rooms?</legend><label class="chip"><input type="radio" name="preset" value="1" ><span>One room</span></label><label class="chip"><input type="radio" name="preset" value="2" checked><span>Two rooms</span></label><label class="chip"><input type="radio" name="preset" value="3" ><span>Three rooms</span></label><label class="chip"><input type="radio" name="preset" value="4" ><span>Four rooms</span></label></fieldset><div class="field"><div class="area-row"><label for="area">Or choose a room count</label><span class="area-val"><output data-price="area-out" for="area">2</output> rooms</span></div><input id="area" class="slider" type="range" min="1" max="8" step="1" value="2" data-price="area"></div><fieldset class="chips" data-price="extras"><legend>Extras per room</legend></fieldset><p class="example-note">Example: average-sized rooms, sound walls, standard preparation and two wall coats. Materials included in these example rates; room size, condition and access need a look.</p></div><div class="result" aria-live="polite"><p class="result-range" data-price="range"></p><div class="result-notes"><b>Example rates: yours go here</b><span>Guide only, subject to a look at the job</span></div><button type="button" class="btn btn-quiet" data-open-quote>Build my quote request</button></div><noscript><p>Example rates only. Walls £220–£340 per room; £280 minimum. Ceilings £60–£100, woodwork £80–£140 and stripping £100–£180 extra per room.</p></noscript></div></div></section><section class="section" id="proof"><div class="wrap"><div class="details"><div><h2>What we decorate</h2><ul class="list" data-list="services"><li><b>Walls and ceilings</b><span>Prepare, fill and sand before the finish coats.</span></li><li><b>Doors and woodwork</b><span>Skirting, frames and doors, with the finish agreed first.</span></li><li><b>Wallpaper stripping</b><span>Old paper removed and the wall checked before decorating.</span></li></ul></div><div><h2>Where we work</h2><ul class="areas" data-list="areas"><li>Worcester</li><li>Malvern</li><li>Droitwich Spa</li></ul><p class="example-note" style="margin-top:16px">Example areas, ready for your patch.</p></div></div></div></section></main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><b data-bind="name">Example Painting & Decorating</b>, <span data-bind="town">Worcester</span><span data-bind="phone-line"></span></p>
+    <p>Drawings, rates and areas are examples.</p>
+    <p>Demo prepared for <span data-bind="name">Example Painting & Decorating</span> by Severn &amp; Tyne. Example content.</p>
+  </div>
+</footer>
+
+<nav class="callbar" aria-label="Contact" data-callbar>
+  <a class="btn btn-quiet" href="#price">Rough price</a>
+  <a class="btn btn-accent" href="#price" data-open-quote>Ask for a quote</a>
+</nav>
+
+<dialog class="sheet" data-quote aria-labelledby="quote-title">
+  <div class="sheet-inner">
+    <div class="sheet-top">
+      <button class="icon-btn" type="button" data-quote="back" aria-label="Back"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <span class="sheet-step-label" data-quote="label">Step 1 of 3</span>
+      <button class="icon-btn" type="button" data-quote="close" aria-label="Close"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+    </div>
+    <form class="step" data-step="1" novalidate>
+      <h2 id="quote-title" style="font-size:30px">Your job</h2>
+      <dl class="summary" data-quote="summary"></dl>
+      <label class="input"><span>First part of your postcode</span><small>Just the area, for example WR2 or NE6</small><input name="pc" aria-describedby="err-pc" autocomplete="off" autocapitalize="characters" maxlength="4" inputmode="text" required><em class="err" data-err="pc" id="err-pc" role="alert"></em></label>
+      <button class="btn btn-accent" type="submit">Next</button>
+    </form>
+    <form class="step" data-step="2" novalidate hidden>
+      <h2 style="font-size:30px">Your details</h2>
+      <label class="input"><span>Name</span><input name="nm" aria-describedby="err-nm" autocomplete="name" maxlength="40" required><em class="err" data-err="nm" id="err-nm" role="alert"></em></label>
+      <label class="input"><span>Mobile</span><input name="mob" aria-describedby="err-mob" type="tel" autocomplete="tel" inputmode="tel" maxlength="16" required><em class="err" data-err="mob" id="err-mob" role="alert"></em></label>
+      <button class="btn btn-accent" type="submit">Get my quote</button>
+    </form>
+    <div class="step" data-step="3" hidden>
+      <span class="stamp">Example: nothing is sent</span>
+      <h2 style="font-size:30px">This is the message it would send</h2>
+      <div class="bubble-wrap">
+        <p class="bubble-to">WhatsApp to <span data-bind="name">Example Painting & Decorating</span></p>
+        <p class="bubble" data-quote="message"></p>
+      </div>
+      <p class="example-note">On the live site this opens WhatsApp with the message ready to send. In this demo nothing leaves the page.</p>
+      <button class="btn btn-accent" type="button" data-quote="done">Done</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+"use strict";(()=>{
+  const ACCENTS = { orange: "#ff7a1a", blue: "#2f8fd8", green: "#3f9b4f", red: "#d8432b", teal: "#1c9c95", purple: "#7a5bd6", yellow: "#f2c230" };
+  const reducedMotion = document.documentElement.classList.contains("rm");
+  const clamp = (value, low = 0, high = 1) => Math.min(high, Math.max(low, value));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const easeInOut = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const segment = (p, start, end) => clamp((p - start) / (end - start));
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
+
+  /* ================= Data from the object and the URL ================= */
+  const isInvisible = (code) => code <= 0x1f || (code >= 0x7f && code <= 0x9f) || (code >= 0x200b && code <= 0x200f) ||
+    (code >= 0x2028 && code <= 0x202e) || (code >= 0x2066 && code <= 0x2069) || code === 0xfeff;
+  function cleanText(value, max) {
+    const text = Array.from(String(value ?? "")).filter((ch) => !isInvisible(ch.codePointAt(0))).join("")
+      .replace(/\s+/g, " ").trim();
+    return Array.from(text).slice(0, max).join("").trim();
+  }
+  function ukPhone(digits) {
+    let local = digits.startsWith("44") && digits.length === 12 ? "0" + digits.slice(2) : digits;
+    if (!/^0\d{10}$/.test(local)) return { display: digits, intl: digits };
+    const display = local.startsWith("02") ? `${local.slice(0, 3)} ${local.slice(3, 7)} ${local.slice(7)}`
+      : local.startsWith("07") ? `${local.slice(0, 5)} ${local.slice(5)}` : `${local.slice(0, 5)} ${local.slice(5)}`;
+    return { display, intl: "44" + local.slice(1) };
+  }
+  function resolveAccent(raw) {
+    const key = cleanText(raw, 24).toLowerCase().replace(/^#/, "");
+    if (ACCENTS[key]) return ACCENTS[key];
+    if (/^[0-9a-f]{6}$/.test(key)) return "#" + key;
+    if (/^[0-9a-f]{3}$/.test(key)) return "#" + key.split("").map((c) => c + c).join("");
+    return null;
+  }
+  function luminance(hex) {
+    const channels = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255)
+      .map((c) => c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4));
+    return 0.2126 * channels[0] + 0.7152 * channels[1] + 0.0722 * channels[2];
+  }
+
+  function readData() {
+    const base = window.SITE;
+    const params = new URLSearchParams(location.search);
+    const name = cleanText(params.get("n"), 60) || cleanText(base.name, 60) || "Example Painting & Decorating";
+    const townRaw = cleanText(params.get("town"), 200);
+    // a long town is cut at the last whole word, never mid-word
+    const townParam = townRaw.length <= 40 ? townRaw : townRaw.slice(0, 41).replace(/\s+\S*$/, "").replace(/[,;:\s]+$/, "");
+    const town = townParam || cleanText(base.town, 40);
+    const digits = String(params.get("ph") ?? base.phone ?? "").replace(/\D/g, "").slice(0, 15);
+    const phone = digits.length >= 7 ? ukPhone(digits) : null;
+    const accent = resolveAccent(params.get("a")) || resolveAccent(base.accent) || ACCENTS.orange;
+    const areas = townParam && townParam.toLowerCase() !== String(base.town).toLowerCase()
+      ? [`${townParam} and nearby`] : base.areas.map((area) => cleanText(area, 40)).filter(Boolean);
+    return { name, town, phone, accent, areas, services: base.services, rates: base.rates };
+  }
+
+  function applyData(data) {
+    const root = document.documentElement.style;
+    root.setProperty("--accent", data.accent);
+    root.setProperty("--on-accent", luminance(data.accent) > 0.179 ? "#000000" : "#ffffff");
+    $$('[data-bind="name"]').forEach((node) => { node.textContent = data.name; });
+    $$('[data-bind="town"]').forEach((node) => { node.textContent = data.town || "your area"; });
+    const phoneLine = $('[data-bind="phone-line"]');
+    phoneLine.textContent = data.phone ? `, ${data.phone.display}` : "";
+    document.title = `${data.name} | Painting and decorating${data.town ? " in " + data.town : ""}`;
+
+    const services = $('[data-list="services"]');
+    services.replaceChildren(...data.services.map((service) => {
+      const item = document.createElement("li");
+      const title = document.createElement("b");
+      const line = document.createElement("span");
+      title.textContent = cleanText(service.name, 40);
+      line.textContent = cleanText(service.line, 140);
+      item.append(title, line);
+      return item;
+    }));
+    const areas = $('[data-list="areas"]');
+    areas.replaceChildren(...data.areas.map((area) => {
+      const item = document.createElement("li");
+      item.textContent = area;
+      return item;
+    }));
+
+    if (data.phone) {
+      const bar = $("[data-callbar]");
+      const call = document.createElement("a");
+      call.className = "btn btn-quiet";
+      call.href = `tel:+${data.phone.intl}`;
+      call.textContent = "Call";
+      call.setAttribute("aria-label", `Call ${data.name} on ${data.phone.display}`);
+      const whatsApp = document.createElement("a");
+      whatsApp.className = "btn btn-accent";
+      whatsApp.href = `https://wa.me/${data.phone.intl}`;
+      whatsApp.textContent = "WhatsApp";
+      whatsApp.setAttribute("aria-label", `Message ${data.name} on WhatsApp`);
+      whatsApp.rel = "noopener";
+      bar.replaceChildren(call, whatsApp);
+    }
+  }
+
+  function seededRandom(seed) {
+    let state = seed >>> 0;
+    return () => {
+      state = (state + 0x6d2b79f5) >>> 0;
+      let value = state;
+      value = Math.imul(value ^ (value >>> 15), value | 1);
+      value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+      return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+
+function makeHero(){
+  const section=$("#hero"), captions=$$(".passes li"), hint=$(".hint");
+  const prep=$('[data-scene="prep"]'), cut=$('[data-scene="cut"]'), finish=$('[data-scene="finish"]');
+  let frame=0, current=0, target=0, caption=-1, top=0, span=1;
+  function measure(){const header=$(".top").offsetHeight;top=section.offsetTop-header;span=section.offsetHeight-innerHeight+header;onScroll();}
+  function render(p){
+    const first=segment(p,.03,.3), second=segment(p,.33,.72), third=segment(p,.75,.98);
+    prep.style.opacity=first;cut.style.opacity=second;finish.style.clipPath=`inset(0 ${100-third*100}% 0 0)`;
+    const next=p<.32?0:p<.74?1:2;
+    if(next!==caption){caption=next;captions.forEach((n,i)=>n.classList.toggle("is-on",i===next));}
+    hint.style.opacity=p>.015?0:1;
+  }
+  function tick(){current+=(target-current)*.2;if(Math.abs(target-current)<.0005)current=target;render(current);frame=current===target?0:requestAnimationFrame(tick);}
+  function onScroll(){target=clamp((scrollY-top)/span);if(!frame)frame=requestAnimationFrame(tick);}
+  addEventListener("scroll",onScroll,{passive:true});addEventListener("resize",measure);measure();render(0);
+}
+
+function makeToy(){
+  const stage=$('[data-toy="stage"]'), base=$('[data-canvas="base"]').getContext('2d'), work=$('[data-canvas="work"]').getContext('2d');
+  const head=$(".work-head"), puffs=$(".puffs"), pct=$('[data-toy="pct"]'), done=$('[data-toy="done"]'), auto=$('[data-toy="auto"]');
+  let width=0,height=0,grid=new Uint8Array(88*84),strokeGrid=new Uint32Array(88*84),strokeId=0,shade="#e8e5db",last=null,pending=[],frame=0,dragging=false,automatic=false,finished=false,autoFrame=0,generation=0;
+  let visits=0,covered=0,secondCoat=0;
+  const random=seededRandom(9), dots=[];
+  for(let i=0;i<12;i++){const dot=document.createElement('i');dot.style.setProperty('--dx',`${Math.cos(i)*45}px`);dot.style.setProperty('--dy',`${25+Math.sin(i)*35}px`);dot.style.animationDelay=`${-i*37}ms`;puffs.append(dot);dots.push(dot);}
+  function resize(){const next=stage.clientWidth;if(!next||next===width)return;cancelAnimationFrame(autoFrame);generation++;width=next;height=width/1.05;const dpr=Math.min(2,devicePixelRatio||1);for(const ctx of [base,work]){ctx.canvas.width=Math.round(width*dpr);ctx.canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);}reset();}
+  function reset(){cancelAnimationFrame(autoFrame);generation++;grid.fill(0);strokeGrid.fill(0);strokeId=0;covered=0;secondCoat=0;visits=0;finished=false;automatic=false;dragging=false;pending=[];last=null;auto.disabled=false;stage.classList.remove('has-started','is-working');pct.textContent='0%';done.textContent='';work.globalCompositeOperation='source-over';work.globalAlpha=1;work.clearRect(0,0,width,height);drawSurface();move(width*.5,height*.5,0);}
+  function drawSurface(){base.fillStyle='#d4d2c5';base.fillRect(0,0,width,height);base.strokeStyle='#7c847d';base.lineWidth=2;for(let i=0;i<35;i++){const x=random()*width,y=random()*height;base.beginPath();base.moveTo(x,y);base.lineTo(x+10+random()*24,y-4+random()*9);base.stroke();}base.fillStyle='#a7aaa0';for(let i=0;i<130;i++)base.fillRect(random()*width,random()*height,1,1);base.strokeStyle='#f3cf54';base.lineWidth=9;base.strokeRect(0,0,width,height);}
+  function move(x,y,angle){head.style.transform=`translate(${x-32}px,${y-48}px) rotate(${angle}rad)`;puffs.style.transform=`translate(${x}px,${y}px)`;}
+  function paintSegment(a,b){
+    const radius=width*.085, touched=[], dx=b.x-a.x,dy=b.y-a.y,length=dx*dx+dy*dy||1;
+    const c0=Math.max(0,Math.floor((Math.min(a.x,b.x)-radius)/width*88)),c1=Math.min(87,Math.floor((Math.max(a.x,b.x)+radius)/width*88));
+    const r0=Math.max(0,Math.floor((Math.min(a.y,b.y)-radius)/height*84)),r1=Math.min(83,Math.floor((Math.max(a.y,b.y)+radius)/height*84));
+    for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const x=(c+.5)*width/88,y=(r+.5)*height/84,t=clamp(((x-a.x)*dx+(y-a.y)*dy)/length);if(Math.hypot(x-a.x-dx*t,y-a.y-dy*t)<radius*.9)touched.push(r*88+c);}
+    const changed=[];
+    for(const i of touched){if(strokeGrid[i]===strokeId)continue;strokeGrid[i]=strokeId;if(grid[i]===0){covered++;grid[i]=1;changed.push(i);}else if(grid[i]===1){secondCoat++;grid[i]=2;changed.push(i);}}
+    work.lineCap='round';work.lineJoin='round';work.lineWidth=radius*2;
+    work.globalCompositeOperation='source-over';work.save();work.setTransform(1,0,0,1,0,0);work.fillStyle=shade;
+    // shortcut: small coverage cells leave a slightly ragged outer edge; use a stroke mask if larger artwork exposes it.
+    for(const i of changed){const col=i%88,row=Math.floor(i/88),x0=Math.round(col*work.canvas.width/88),x1=Math.round((col+1)*work.canvas.width/88),y0=Math.round(row*work.canvas.height/84),y1=Math.round((row+1)*work.canvas.height/84);work.clearRect(x0,y0,x1-x0,y1-y0);work.globalAlpha=grid[i]===2?1:(col%8<2?.48:.72);work.fillRect(x0,y0,x1-x0,y1-y0);}work.restore();work.globalAlpha=1;visits++;
+    const amount=Math.floor(covered/grid.length*100);pct.textContent=`${amount}%`;
+    if(amount>=99 && secondCoat/grid.length>.96)complete();
+  }
+  function position(event){const rect=stage.getBoundingClientRect();return{x:clamp(event.clientX-rect.left,0,width),y:clamp(event.clientY-rect.top,0,height)};}
+  function flush(){frame=0;if(!pending.length)return;const points=last?[last,...pending]:[pending[0],...pending];pending=[];for(let i=1;i<points.length;i++)if(!finished)paintSegment(points[i-1],points[i]);last=points[points.length-1];const previous=points[points.length-2]||last;move(last.x,last.y,0);}
+  function queue(event){pending.push(position(event));if(!frame)frame=requestAnimationFrame(flush);}
+  stage.addEventListener('pointerdown',event=>{if(automatic||finished)return;event.preventDefault();stage.setPointerCapture(event.pointerId);strokeId++;dragging=true;last=null;stage.classList.add('has-started','is-working');queue(event);});
+  stage.addEventListener('pointermove',event=>{if(!dragging)return;const events=event.getCoalescedEvents?.()||[];for(const item of events.length?events:[event])queue(item);});
+  function stop(){if(pending.length)flush();dragging=false;last=null;stage.classList.remove('is-working');}
+  stage.addEventListener('pointerup',stop);stage.addEventListener('pointercancel',stop);stage.addEventListener('lostpointercapture',stop);
+  function complete(){finished=true;automatic=false;grid.fill(2);covered=grid.length;secondCoat=grid.length;pct.textContent='100%';auto.disabled=true;stage.classList.remove('is-working');work.globalCompositeOperation='source-over';work.globalAlpha=1;work.fillStyle=shade;work.fillRect(0,0,width,height);work.strokeStyle='#f3cf54';work.lineWidth=9;work.strokeRect(0,0,width,height);done.textContent="An even finish. Try another shade, or reset for another go.";}
+  auto.addEventListener('click',()=>{if(automatic||finished)return;automatic=true;auto.disabled=true;stage.classList.add('has-started','is-working');const token=++generation;let previous={x:0,y:height*.06};const start=performance.now(),duration=reducedMotion?0:3200;strokeId++;function run(now){if(token!==generation)return;const p=duration?clamp((now-start)/duration):1,total=p*16,lane=Math.min(15,Math.floor(total)),fraction=total-lane;const y=height*(lane+.5)/16,x=width*(lane%2?1-fraction:fraction);paintSegment(previous,{x,y});move(x,y,0);previous={x,y};if(p>=1)complete();else autoFrame=requestAnimationFrame(run);}if(reducedMotion)complete();else autoFrame=requestAnimationFrame(run);});
+  $('[data-toy="reset"]').addEventListener('click',reset);
+  $$('input[name=shade]').forEach(input=>input.addEventListener('change',()=>{shade=input.value;reset();}));
+  new ResizeObserver(resize).observe(stage);resize();
+  window.__toy={get covered(){return covered},get secondCoat(){return secondCoat},get grid(){return [...grid]},get shade(){return shade},get visits(){return visits}};
+}
+
+function makeAdvice(){
+ const entries=$$('.choice-list [data-choice]'),chips=$('[data-choice-chips]'),method=$('[data-choice-method]'),reason=$('[data-choice-reason]');
+ function show(entry){method.textContent=entry.dataset.method;reason.replaceChildren(...[...entry.querySelector('dd').childNodes].map(n=>n.cloneNode(true)));const marker=$('.finish-marker');if(marker)marker.style.transform=`translateX(${Number(entry.dataset.value)*100}%)`;}
+ entries.forEach((entry,i)=>{const label=document.createElement('label');label.className='chip';const input=document.createElement('input');input.type='radio';input.name='choice';input.value=entry.dataset.choice;input.checked=i===0;const span=document.createElement('span');span.textContent=entry.dataset.choice;label.append(input,span);chips.append(label);input.addEventListener('change',()=>show(entry));});show(entries[0]);
+}
+function priceFor(rates,amount,extras){let low=amount*rates.low,high=amount*rates.high;for(const key of extras){const extra=rates.extras[key],quantity=amount;low+=extra.low*quantity;high+=extra.high*quantity;}const round=value=>Math.round(Math.max(value,rates.minimum)/5)*5;return{low:round(low),high:round(high)};}
+function makePrice(data){
+ const root=$('[data-price]'),area=$('[data-price=area]'),output=$('[data-price=area-out]'),range=$('[data-price=range]'),extras=$('[data-price=extras]');
+ Object.entries(data.rates.extras).forEach(([key,value])=>{const label=document.createElement('label');label.className='chip';const input=document.createElement('input');input.type='checkbox';input.name='extra';input.value=key;const span=document.createElement('span');span.textContent=value.label;label.append(input,span);extras.append(label);});
+ const selected=()=>$$('input[name=extra]:checked').map(n=>n.value),money=value=>`£${value.toLocaleString('en-GB')}`;
+ function update(){const amount=Number(area.value),price=priceFor(data.rates,amount,selected());output.textContent=amount;root.dataset.low=price.low;root.dataset.high=price.high;range.textContent=price.low===price.high?`${money(price.low)} minimum visit`:`${money(price.low)} to ${money(price.high)}`;area.style.setProperty('--fill',`${(amount-area.min)/(area.max-area.min)*100}%`);$$('input[name=preset]').forEach(n=>n.checked=Number(n.value)===amount);}
+ $$('input[name=preset]').forEach(n=>n.addEventListener('change',()=>{area.value=n.value;update();}));area.addEventListener('input',update);root.addEventListener('change',update);update();
+ return{summary(){const price=priceFor(data.rates,Number(area.value),selected());return{area:Number(area.value),unit:"rooms",surfaces:["wall painting"],extras:selected().map(key=>data.rates.extras[key].label),range:`${money(price.low)} to ${money(price.high)}`};}};
+}
+  function makeQuote(data, price) {
+    const dialog = $("[data-quote]");
+    const steps = $$("[data-step]", dialog);
+    const back = $('[data-quote="back"]', dialog), label = $('[data-quote="label"]', dialog);
+    const summaryList = $('[data-quote="summary"]', dialog), message = $('[data-quote="message"]', dialog);
+    const answers = { pc: "", nm: "", mob: "" };
+    let step = 1;
+    const listJoin = (items) => items.length < 2 ? items.join("") : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
+
+    function go(next) {
+      step = next;
+      steps.forEach((node) => { node.hidden = Number(node.dataset.step) !== step; });
+      back.hidden = step === 1;
+      label.textContent = step === 3 ? "Example" : `Step ${step} of 2`;
+      const field = $(`[data-step="${step}"] input`, dialog);
+      if (field) field.focus({ preventScroll: true });
+    }
+    function fillSummary() {
+      const job = price.summary();
+      const rows = [["Size", `About ${job.area} ${job.unit}`], ["Surfaces", listJoin(job.surfaces) || "Not picked yet"], ["Extras", listJoin(job.extras) || "None"], ["Guide", job.range]];
+      summaryList.replaceChildren(...rows.map(([term, value]) => {
+        const row = document.createElement("div");
+        const dt = document.createElement("dt"), dd = document.createElement("dd");
+        dt.textContent = term; dd.textContent = value;
+        row.append(dt, dd);
+        return row;
+      }));
+    }
+    function open(event) {
+      if (event) event.preventDefault();
+      fillSummary();
+      go(1);
+      dialog.showModal();
+      history.pushState({ quote: true }, "");
+    }
+    function close() {
+      if (dialog.open) dialog.close();
+    }
+    const setError = (name, text) => { $(`[data-err="${name}"]`, dialog).textContent = text; $(`[name="${name}"]`,dialog).setAttribute("aria-invalid",String(Boolean(text))); };
+
+    $('[data-step="1"]', dialog).addEventListener("submit", (event) => {
+      event.preventDefault();
+      const value = cleanText(event.target.pc.value, 4).toUpperCase().replace(/\s/g, "");
+      if (!/^[A-Z]{1,2}\d[A-Z\d]?$/.test(value)) { setError("pc", "Enter the first part, like WR2 or NE6"); return; }
+      setError("pc", "");
+      answers.pc = value;
+      go(2);
+    });
+    $('[data-step="2"]', dialog).addEventListener("submit", (event) => {
+      event.preventDefault();
+      const name = cleanText(event.target.nm.value, 40);
+      const mobile = String(event.target.mob.value).replace(/[^\d+]/g, "");
+      let ok = true;
+      if (!name) { setError("nm", "Add your name"); ok = false; } else setError("nm", "");
+      if (mobile.replace(/\D/g, "").length < 10) { setError("mob", "Add a mobile number we can call back"); ok = false; } else setError("mob", "");
+      if (!ok) return;
+      answers.nm = name; answers.mob = mobile;
+      const job = price.summary();
+      const extras = job.extras.length ? `, plus ${listJoin(job.extras).toLowerCase()}` : "";
+      message.textContent = `Hi ${data.name}, could I get a quote please? About ${job.area} ${job.unit} of ${listJoin(job.surfaces).toLowerCase() || "paving"}${extras}. I'm in ${answers.pc}. Your price guide said ${job.range}. ${answers.nm}, ${answers.mob}`;
+      go(3);
+    });
+    back.addEventListener("click", () => go(Math.max(1, step - 1)));
+    $('[data-quote="close"]', dialog).addEventListener("click", () => history.state?.quote ? history.back() : close());
+    $('[data-quote="done"]', dialog).addEventListener("click", () => history.state?.quote ? history.back() : close());
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); history.state?.quote ? history.back() : close(); });
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) (history.state?.quote ? history.back() : close()); });
+    window.addEventListener("popstate", () => { if (!dialog.open) return; if (step > 1 && step < 3) { go(step - 1); history.pushState({ quote: true }, ""); } else close(); });
+    document.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-open-quote]");
+      if (trigger) open(event);
+    });
+  }
+
+  /* ================= Before / after ================= */
+  function makeCompare() {
+    const input = $("[data-compare]");
+    const after = $(".compare .after"), handle = $(".compare-handle");
+    function update() {
+      const value = Number(input.value);
+      after.style.clipPath = `inset(0 0 0 ${value}%)`;
+      handle.style.left = `${value}%`;
+      input.setAttribute("aria-valuetext", `${value}% before, ${100 - value}% after`);
+    }
+    input.addEventListener("input", update);
+    update();
+  }
+
+
+const data=readData();applyData(data);if(!reducedMotion)makeHero();makeToy();makeCompare();makeAdvice();const price=makePrice(data);makeQuote(data,price);window.__site={data,priceFor};
+new IntersectionObserver(entries=>document.body.classList.toggle('toy-in-view',entries[0].isIntersecting),{threshold:.15}).observe($('#try'));
+})();</script>
+</body>
+</html>

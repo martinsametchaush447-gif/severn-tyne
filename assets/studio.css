@@ -194,3 +194,10 @@ html:not(.js) :is(.maker-phone,.maker-theme,#send-wa,[data-copy-link]) { display
   .chip span { padding: 0 9px; }
 }
 @media(prefers-reduced-motion:reduce) { *, *::before, *::after { transition: none !important; animation: none !important; } }
+
+.showpiece-list{display:flex;gap:clamp(18px,3vw,42px);margin:1.5rem 0 0;padding:0 0 1rem;list-style:none;overflow-x:auto;scroll-snap-type:x proximity}
+.showpiece-list li{flex:0 1 195px;min-width:0;scroll-snap-align:start}
+.showpiece-list img{display:block;width:100%;height:auto;aspect-ratio:15/28;object-fit:cover;object-position:top;border:5px solid #263b34;border-radius:22px;background:#edeadf}
+.showpiece-list h3{margin:1rem 0 .35rem}.showpiece-list p{margin:0;line-height:1.45}
+.showpiece-list a{display:inline-flex;align-items:center;min-height:44px;text-underline-offset:.2em}
+@media(max-width:740px){.showpiece-list li{flex:0 0 min(62vw,228px)}}

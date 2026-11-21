@@ -33,8 +33,8 @@ export default {
       nav: 'Repairs', art: workshopArt(data.kind.id, true, art),
       section:`<div class="section-head"><h2>What we fix</h2><p>Example services</p></div>${services}`,
       content:`<section class="workshop"><div class="shop-wrap workshop-grid"><div><h2>Common problems</h2><ul>${problems.map((problem) => `<li>${problem}</li>`).join("")}</ul></div>
-      <div><h2>How it works</h2><ol><li><strong>Call the workshop</strong><p>Tell us what you’ve noticed.</p></li><li><strong>Diagnosis and quote</strong><p>We check the fault and talk through the price.</p></li><li><strong>Agree the repair</strong><p>We carry out the work you approve.</p></li></ol></div></div></section>`,
-      sticky:call + '<button class="kit-primary" type="button" data-service>Book a service</button>'
+      <div><h2>How it works</h2><ol><li><strong>${data.kind.id === "mobile-mechanic" ? "Arrange a visit" : "Call the workshop"}</strong><p>Tell us what you’ve noticed.</p></li><li><strong>Diagnosis and quote</strong><p>We check the fault and talk through the price.</p></li><li><strong>Agree the repair</strong><p>We carry out the work you approve.</p></li></ol></div></div></section>`,
+      sticky:call + `<button class="kit-primary" type="button" data-service>${data.kind.id === "mobile-mechanic" ? "Request a visit" : "Book a service"}</button>`
     });
     wireServiceRequests(root, data.kind.jobs ?? ["Brakes", "Servicing", "Diagnostics", "Suspension"]);
   }

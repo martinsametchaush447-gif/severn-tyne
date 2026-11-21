@@ -17,6 +17,7 @@ export const TRADES = [
   { id: "shop", label: "Shop", aliases: [], styles: [{ id: "a", label: "Market awning", module: "./shop.js" }, { id: "b", label: "Parcel label", module: "./shop-b.js" }] },
   { id: "garage", label: "Garage", aliases: ["mechanic", "car-repairs"], styles: [{ id: "a", label: "Workshop", module: "./garage.js" }, { id: "b", label: "Blueprint", module: "./garage-b.js" }] },
   { id: "trades", label: "Trades", aliases: [], styles: [{ id: "a", label: "Field notes", module: "./trades.js" }, { id: "b", label: "Block print", module: "./trades-b.js" }] },
+  { id: "clinic", label: "Clinic & training", aliases: [], styles: [{ id: "a", label: "Appointment book", module: "./clinic.js" }, { id: "b", label: "Studio print", module: "./clinic-b.js" }] },
 ];
 
 export const DEFAULT_TRADE = TRADES[0].id;

@@ -34,6 +34,7 @@ const SHEET_CSS = `
 
 function createBooking(root, services) {
   const serviceById = (id) => services.find((service) => service.id === id);
+  const groom = root.kitData.kind.id === "dog-groomer";
   const consultation = root.kitData.kind.id === "tattoo";
   const withPrice = (text, service) => consultation || service.price == null ? text : `${text}, ${price(service.price)}`;
   const state = { serviceId: null, slot: null, customer: null };
@@ -110,19 +111,26 @@ function createBooking(root, services) {
     const form = detailsForm({
       submitLabel: consultation ? "Confirm consultation" : "Confirm booking",
       note: "Example only. Nothing is sent.",
-      initial: state.customer ?? {},
+      initial: state.customer ?? {}, nameLabel: groom ? "Owner name" : "Your name",
       onSubmit: (customer) => {
-        state.customer = customer;
+        state.customer = { ...Object.fromEntries(new FormData(form)), ...customer };
         confirmedStep();
       },
     });
+    if (groom) {
+      const dog = h("input", { class:"k-input", name:"dog", required:true, maxlength:40, pattern:".*\\S.*", value:state.customer?.dog ?? "" });
+      const size = h("select", { class:"k-input", name:"size", required:true },
+        h("option", { value:"" }, "Choose a size"), ...["Small", "Medium", "Large", "Giant"].map(label => h("option", {}, label)));
+      size.value = state.customer?.size ?? "";
+      form.querySelector(".k-sheet-foot").before(h("label", { class:"k-field" }, "Dog’s name", dog), h("label", { class:"k-field" }, "Breed size", size));
+    }
     const body = h(
       "div",
       {},
       h("div", { class: "bb-summary" }, h("p", {}, `${formatLongDate(date)}, ${time}`, h("span", { text: withPrice(`${service.name}, ${service.minutes} min`, service) }))),
       form,
     );
-    show({ title: "Your details", body, onBack: () => timeStep() });
+    show({ title: "Your details", body, onBack: () => { state.customer = Object.fromEntries(new FormData(form)); timeStep(); } });
   }
 
   function confirmedStep() {
@@ -139,7 +147,7 @@ function createBooking(root, services) {
         h("span", { class: "bb-mono", "aria-hidden": "true" }, h("span", { text: root.querySelector('[data-bind="initials"]')?.textContent ?? "" })),
         h("p", { text: shop.name }),
       ),
-      h("dl", {}, ...row(consultation ? "Consultation" : "Service", service.name), ...row("Day", formatLongDate(date)), ...row("Time", time), ...row("Name", state.customer.name)),
+      h("dl", {}, ...row(consultation ? "Consultation" : "Service", service.name), ...row("Day", formatLongDate(date)), ...row("Time", time), ...row(groom ? "Owner" : "Name", state.customer.name), ...(groom ? [...row("Dog", state.customer.dog), ...row("Breed size", state.customer.size)] : [])),
     );
     const body = h(
       "div",
@@ -163,6 +171,7 @@ function createBooking(root, services) {
 
   return {
     open(serviceId) {
+      state.customer = null;
       state.slot = null;
       if (serviceId && serviceById(serviceId)) {
         state.serviceId = serviceId;

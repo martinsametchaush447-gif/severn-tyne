@@ -558,7 +558,7 @@ export function dateTimePicker({ days = 14, freeTimesFor, value = null, onChange
 
 let formCount = 0;
 
-export function detailsForm({ submitLabel, note, initial = {}, onSubmit }) {
+export function detailsForm({ submitLabel, note, initial = {}, nameLabel = "Your name", onSubmit }) {
   formCount += 1;
   const id = `k-form-${formCount}`;
   const field = (key, label, attributes) => {
@@ -566,7 +566,7 @@ export function detailsForm({ submitLabel, note, initial = {}, onSubmit }) {
     const input = h("input", { id: `${id}-${key}`, name: key, class: "k-input", "aria-describedby": error.id, ...attributes });
     return { input, error, wrap: h("div", { class: "k-field" }, h("label", { for: input.id, text: label }), input, error) };
   };
-  const name = field("name", "Your name", { autocomplete: "name", maxlength: "40", value: initial.name ?? "", enterkeyhint: "next" });
+  const name = field("name", nameLabel, { autocomplete: "name", maxlength: "40", value: initial.name ?? "", enterkeyhint: "next" });
   const mobile = field("mobile", "Mobile number", {
     type: "tel",
     inputmode: "tel",
@@ -597,6 +597,7 @@ export function detailsForm({ submitLabel, note, initial = {}, onSubmit }) {
         showError(mobile, mobileMessage);
         if (nameMessage) return name.input.focus();
         if (mobileMessage) return mobile.input.focus();
+        if (!form.reportValidity()) return;
         onSubmit({ name: nameValue, mobile: formatUkPhone(mobileDigits) });
       },
     },

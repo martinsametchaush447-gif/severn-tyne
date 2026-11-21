@@ -4,7 +4,8 @@ export function wireQuotes(root, jobs) {
   root.addEventListener("click", event => {
     const trigger = event.target.closest("[data-quote]");
     if (!trigger) return;
-    const draft = {job:"", description:"", postcode:"", customer:{}};
+    const questions = root.kitData.kind.questions ?? [];
+    const draft = {job:"", description:"", postcode:"", answers:{}, customer:{}};
 
     function jobTypes() {
       const buttons = jobs.map(job => h("button", {
@@ -47,10 +48,19 @@ export function wireQuotes(root, jobs) {
           return;
         }
         draft.postcode = area[1];
+        for (const [label] of questions) draft.answers[label] = cleanText(form.elements.namedItem(label).value, 80);
         updateSheet(contactDetails());
       };
       const form = h("form", {class:"k-form", onsubmit:submit},
         h("p", {class:"quote-type", text:draft.job}),
+        ...questions.map(([label, choices]) => {
+          const props = {class:"k-input", name:label, required:true};
+          const input = choices ? h("select", props, h("option",{value:""}, "Choose an option"),
+            ...choices.map(value => h("option", {}, value))) : h("input", {...props, maxlength:80, pattern:".*\\S.*"});
+          input.value = draft.answers[label] ?? "";
+          input.addEventListener("input", () => { draft.answers[label] = input.value; });
+          return h("label", {class:"k-field"}, label, input);
+        }),
         h("div", {class:"k-field"}, h("label",{for:description.id,text:"Short description"}), description),
         h("div", {class:"k-field"}, h("label",{for:postcode.id,text:"Postcode area"}), postcode,
           h("small",{id:"quote-area-hint",text:"Just the first part is enough."})),
@@ -67,6 +77,7 @@ export function wireQuotes(root, jobs) {
             h("dl",{class:"quote-summary"},
               h("dt",{text:"Job"}),h("dd",{text:draft.job}),
               h("dt",{text:"Details"}),h("dd",{text:draft.description}),
+              ...questions.flatMap(([label]) => [h("dt",{text:label}), h("dd",{text:draft.answers[label]})]),
               h("dt",{text:"Area"}),h("dd",{text:draft.postcode}),
               h("dt",{text:"Contact"}),h("dd",{text:`${customer.name}, ${customer.mobile}`})),
             h("div",{class:"k-sheet-foot"},h("button",{type:"button",class:"k-btn k-btn-primary k-btn-wide",

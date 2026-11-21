@@ -25,6 +25,10 @@ export const KINDS = {
       services: appointments([["Brow shape", 20, 1400], ["Lash tint", 30, 1800], ["Express facial", 40, 3200], ["Brow shape and tint", 35, 2400]]) },
     { id: "tattoo", label: "Tattoo studio", tagline: "Talk through your design, size and placement.",
       services: appointments([["New design consultation", 30], ["Cover-up consultation", 40], ["Sleeve planning", 45]]) },
+    { id: "dog-groomer", label: "Dog groomer", action: "Book a groom", heading: "Grooming appointments", tagline: "Choose a wash, coat tidy or full groom for your dog.",
+      services: appointments([["Bath and brush", 45, 2800], ["Full coat groom", 90, 5200], ["Paw and face tidy", 30, 1900]]) },
+    { id: "alterations", label: "Tailoring & alterations", action: "Book a fitting", heading: "Fittings and prices", tagline: "Bring the garment and the shoes you plan to wear with it.",
+      services: appointments([["Trouser hem fitting", 20, 1600], ["Skirt waist adjustment", 30, 2400], ["Sleeve shortening fitting", 30, 2600]]) },
   ],
   restaurant: [
     { id: "restaurant", label: "Restaurant" },
@@ -57,6 +61,22 @@ export const KINDS = {
       category("From the steamer", [["Pork and chive dumplings", "Six dumplings with black vinegar", 650], ["Mushroom bao", "Two steamed buns with shiitake filling", 590]]),
       category("From the wok", [["Beef chow mein", "Egg noodles with beef and beansprouts", 890], ["Egg fried rice", "With spring onions", 390]]),
     ] },
+    { id: "italian", label: "Italian restaurant", tagline: "Start with antipasti, then choose a plate of pasta.", menu: [
+      category("Antipasti", [["Marinated artichokes", "Lemon, parsley and olive oil", 575], ["Crostini ai funghi", "Toasted bread with garlic mushrooms", 650]]),
+      category("Pasta", [["Pappardelle al ragù", "Wide ribbons with slow-cooked beef", 1550], ["Lemon ricotta ravioli", "Brown butter and sage", 1475]]),
+    ] },
+    { id: "turkish", label: "Turkish restaurant", tagline: "Mezze for the table and plates from the charcoal grill.", menu: [
+      category("Cold mezze", [["Haydari", "Thick yoghurt with dill and garlic", 475], ["Acılı ezme", "Finely chopped tomato, pepper and chilli", 495]]),
+      category("Charcoal grill", [["Adana kebap", "Hand-shaped minced lamb with bulgur", 1595], ["Tavuk şiş", "Marinated chicken, grilled tomato and flatbread", 1495]]),
+    ] },
+    { id: "coffee-shop", label: "Coffee shop", collectionOnly: true, tagline: "Choose your coffee and a bake to take along.", menu: [
+      category("Coffee bar", [["Flat white", "Double espresso with silky milk", 350], ["Batch brew", "A cup of the filter coffee of the day", 310], ["Iced oat latte", "Espresso over ice with oat drink", 410]]),
+      category("Bakes", [["Cardamom knot", "A twisted bun with crushed cardamom", 340]]),
+    ] },
+    { id: "sandwich-bar", label: "Sandwich bar", collectionOnly: true, tagline: "Pick a filling and collect your lunch.", menu: [
+      category("Filled rolls", [["Roast beef roll", "Horseradish and watercress", 690], ["Egg and cress", "Soft granary roll with egg mayo", 490]]),
+      category("Toasted sandwiches", [["Cheddar melt", "Red onion relish on sourdough", 595], ["Roast veg ciabatta", "Courgette, peppers and basil", 625]]),
+    ] },
   ],
   shop: [
     { id: "butcher", label: "Butcher", tagline: "Choose your cuts for collection.", menu: [
@@ -75,6 +95,26 @@ export const KINDS = {
       category("Vegetables", [["Carrot bunch", "One bunch", 160], ["New potatoes", "1 kg bag", 240]]),
       category("Fruit", [["Eating apples", "Bag of six", 225], ["Conference pears", "Bag of four", 195]]),
     ] },
+    { id: "florist", label: "Florist", tagline: "Choose a bouquet for the occasion.", menu: [
+      category("Birthdays", [["Apricot posy", "Spray roses and soft peach stems", 2800], ["Bright birthday bunch", "Yellow blooms in a paper wrap", 3200]]),
+      category("Thanks and thinking of you", [["Garden hand-tie", "Mixed stems with scented foliage", 3600], ["White and green bouquet", "Pale flowers with eucalyptus", 3400]]),
+    ] },
+    { id: "fishmonger", label: "Fishmonger", heading: "Today’s catch", tagline: "Choose fish by the portion or the weight.", menu: [
+      category("Fillets", [["Haddock fillet", "One 180 g portion", 475], ["Salmon fillet", "One 200 g portion", 620]]),
+      category("Shellfish", [["Mussels", "1 kg net", 695], ["Peeled prawns", "250 g tub", 650]]),
+    ] },
+    { id: "gift-shop", label: "Gift shop", heading: "Gifts to collect", tagline: "Set aside a small gift and a card to go with it.", menu: [
+      category("For the home", [["Stoneware bud vase", "Speckled glaze", 1800], ["Beeswax tapers", "Pair of dipped candles", 950]]),
+      category("Paper goods", [["Botanical card", "Blank inside with envelope", 325], ["Pocket sketchbook", "Unlined recycled paper", 650]]),
+    ] },
+    { id: "clothing", label: "Clothing boutique", heading: "Try on in store", tagline: "Choose a few pieces for the fitting room.", menu: [
+      category("Separates", [["Linen overshirt", "Oatmeal · medium"], ["Pleated trousers", "Ink blue · size 12"]]),
+      category("Knitwear", [["Ribbed cardigan", "Moss green · small"], ["Fisherman jumper", "Ecru · large"]]),
+    ] },
+    { id: "sweet-shop", label: "Sweet shop", heading: "The sweet counter", tagline: "Choose a paper bag of pick and mix or a box to share.", menu: [
+      category("From the jars", [["Rhubarb and custards", "150 g paper bag", 210], ["Sherbet lemons", "150 g paper bag", 210]]),
+      category("To share", [["Vanilla fudge", "250 g box", 495], ["Liquorice twists", "Six twists", 185]]),
+    ] },
   ],
   garage: [
     { id: "garage", label: "Garage" },
@@ -84,6 +124,9 @@ export const KINDS = {
     { id: "body-shop", label: "Body shop", tagline: "Talk to the workshop about scratches, dents and paintwork.",
       jobs: ["Dent assessment", "Bumper repair", "Paint matching", "Panel repair"],
       problems: ["A dent in a door", "A scuffed bumper", "Paint scratched down to the primer"] },
+    { id: "mobile-mechanic", label: "Mobile mechanic", tagline: "We come to you. Choose a job and request a visit.",
+      jobs: ["Battery replacement", "Starting fault check", "Oil and filter change", "Warning light check"],
+      problems: ["The car will not start on the drive", "A battery warning light", "A service is due"] },
   ],
   trades: [
     { id: "plumber", label: "Plumber", tagline: "Describe the leak, repair or fitting you have in mind.",
@@ -96,6 +139,20 @@ export const KINDS = {
       jobs: ["Slipped tile", "Flat roof repair", "Gutter replacement", "Flashing repair"] },
     { id: "gardener", label: "Gardener", tagline: "Tell us what needs doing in your garden.",
       jobs: ["Hedge trimming", "Lawn care", "Planting", "Garden clearance"] },
+    { id: "cleaner", label: "Cleaner", tagline: "Choose a regular house clean or an end-of-tenancy visit.",
+      jobs: ["Domestic clean", "Deep clean", "End-of-tenancy clean"],
+      questions: [["Bedrooms", ["Studio", "1", "2", "3", "4", "5 or more"]], ["How often", ["Once", "Weekly", "Fortnightly", "Monthly"]]] },
+    { id: "decorator", label: "Painter & decorator", tagline: "Tell us which rooms or outside surfaces need decorating.",
+      jobs: ["Painting", "Wallpaper hanging", "Woodwork preparation"],
+      questions: [["Rooms or areas", null], ["Inside or outside", ["Inside", "Outside", "Both"]]] },
+    { id: "landscaper", label: "Landscaper", tagline: "Plan a new patio, fence or lawn.",
+      jobs: ["Patio laying", "Fence installation", "Turfing", "Garden steps"] },
+  ],
+  clinic: [
+    { id: "physio", label: "Physiotherapy", action: "Book an appointment", heading: "Physiotherapy appointments", tagline: "Choose an initial appointment or a follow-up.",
+      services: appointments([["Initial physiotherapy appointment", 45, 5500], ["Follow-up appointment", 30, 4000]]) },
+    { id: "gym-pt", label: "Personal training", action: "Book a session", heading: "Training sessions", tagline: "Choose an introduction to the gym or a one-to-one session.",
+      services: appointments([["Gym introduction", 30, 2000], ["One-to-one training", 60, 4200], ["Technique session", 45, 3200]]) },
   ],
 };
 
